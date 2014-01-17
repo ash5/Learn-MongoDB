@@ -4,3 +4,32 @@
  </fieldset>
  <input type="submit" value="Post">
 </form>
+
+<form method="POST" action="/lucky">
+                        <div>
+                           <fieldset> 
+                               <legend>サンプル</legend>
+                                生年月日
+                                <label><input type="text" name="year" />年</label>
+                                <label><input type="text" name="month" />月</label>
+                                <label><input type="text" name="day" />日</label>
+                        		
+                           </fieldset>
+                        </div>
+                        <input type="submit" value="ラッキーナンバーは？" />
+</form>
+
+
+<form method="POST" action="/answer">
+ <fieldset>
+  <p><label>Input JSON</label><input type="text" name="answer"></p>
+ </fieldset>
+ <input type="submit" value="Post">
+</form>
+
+<form method="POST" action="/mongo">
+ <fieldset>
+  <p><label>Input Mongo JSON</label><input type="text" name="answer"></p>
+ </fieldset>
+ <input type="submit" value="Post">
+</form>

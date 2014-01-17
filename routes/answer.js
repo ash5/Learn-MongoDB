@@ -1,3 +1,36 @@
+	/*
+	 * Mongolian を使用
+	 */
+	var Mongolian = require("mongolian");
+
+	//Create a server instanve default host and port
+	var server = new Mongolian;
+
+	//get database
+	var db = server.db("sampleDB");
+
+	//get some collections
+	var test = db.collection("test");
+	var posts = db.collection("posts");
+
+	var querystring = require("querystring");
+	
+exports.insert = function(req,res){
+
+	// 解答の入力文字列をJSONオブジェクトに変換
+ 	try{
+	//	var data = JSON.parse('{"a":1,"b":2}');
+		var data = JSON.parse(req.body.answer);	
+		console.log("json=",data);
+	}catch(e){
+		console.error("parsing error",e);
+	}
+	
+	//コレクションにドキュメントを追加
+	test.insert(data);
+	
+	res.end();
+};
 
 var model = require('./model');
 var Post = model.Post;
@@ -71,7 +104,7 @@ exports.lucky = function(req, res){
                      res.redirect('/');
              });
              */
-             res.render('index', { title: 'Entry List', items: ["a","b"], number:luckyNumber});   
+             res.render('index', { title: 'Entry List',  number:luckyNumber});   
        //      res.redirect('/');
              return ;
 	    
