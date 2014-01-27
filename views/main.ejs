@@ -28,7 +28,11 @@
 <!-- JSON入力フィールド -->
 <form method="POST" action="/answer">
  <fieldset>
-   <!--　問題番号 -->
+   <!--　問題番号等 -->
+	<input type="hidden" id="q_id" name="q_id" value="0">
+	<input type="hidden" id="q_result" name="q_result" value="">
+	<input type="hidden" id="q_query" name="q_query" value="">
+  
   <p><label>Input JSON</label>
   <br>
   <input type="text" name="answer"></p>
@@ -49,6 +53,7 @@
 <br>
 <hr>
 <br>
+
 <!--　フィードバックフィールド -->
 	<p><textarea id="feedback" cols="40" rows="10"><%= comment %></textarea></p>
 
