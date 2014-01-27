@@ -19,18 +19,52 @@ exports.insert = function(req,res){
 
 	// 解答の入力文字列をJSONオブジェクトに変換
  	try{
-	//	var data = JSON.parse('{"a":1,"b":2}');
 		var data = JSON.parse(req.body.answer);	
 		console.log("json=",data);
 	}catch(e){
 		console.error("parsing error",e);
+		 res.render('main', {
+			    comment: 'parsing error'
+			  });
 	}
 	
 	//コレクションにドキュメントを追加
 	test.insert(data);
 	
-	res.end();
+	/*
+	 * 入力したドキュメントに対してクエリを実行
+	 */
+	
+	//コレクションからカーソルオブジェクトを取得
+	var q = "test.find({'a':1})";
+	var cursor = eval(q);
+	//JSONファイルから実行
+	//$.getJSON('/question/question.json',function(json){
+	//	var q = json[0].query;
+	//	var cursor = eval(q);
+
+	//});
+	/*
+	.fail(function(jqXHR,textStatus,errorThrown){
+		console.error("error"+textStatus);
+	});
+	*/
+	
+	//var cursor = test.find({"a":1});
+	
+	//カーソルをすべて表示
+	cursor.forEach(function(doc){
+		console.log(doc);
+	});
+	
+	
+	var tmp = 'console.log("abc");';
+		eval(tmp);
+	//res.end();
+		//mainに戻る。
+		res.redirect('/main');
 };
+
 
 var model = require('./model');
 var Post = model.Post;

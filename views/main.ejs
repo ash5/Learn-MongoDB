@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<title>TestPage</title>
+		
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="/javascripts/script.js"></script>
+		<script src="/javascripts/jquery.js"></script>
+		
+	</head>
+	
+	<body>
+	
+	<h1>Sample</h1>
+
+<!-- Start ボタン -->
+<input id="start" type="button" value="START">
+
+<!-- 問題表示フィールド -->
+
+   <div id="mondai">
+   てすと
+　　	</div>
+
+<br>
+<hr>
+<br>
+
+<!-- JSON入力フィールド -->
+<form method="POST" action="/answer">
+ <fieldset>
+   <!--　問題番号 -->
+  <p><label>Input JSON</label>
+  <br>
+  <input type="text" name="answer"></p>
+  <!-- 解答送信ボタン -->
+  <input type="submit" value="Submit">
+  </fieldset>
+</form>
+
+<br>
+<hr>
+<br>
+
+
+<!-- ヒント表示　ボタン -->
+	<input id="test_button" type="button" value="Test">
+<!-- ヒント表示フィールド -->
+	<p><textarea id="test" cols="40" rows="10"></textarea></p>
+<br>
+<hr>
+<br>
+<!--　フィードバックフィールド -->
+	<p><textarea id="feedback" cols="40" rows="10"><%= comment %></textarea></p>
+
+	
+	<body>
+</html>
