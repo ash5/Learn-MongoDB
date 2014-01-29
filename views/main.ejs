@@ -49,27 +49,27 @@
 <!-- JSON入力フィールド -->
 <form method="POST" action="/answer" target="comment">
    
-   <!-- コレクション名 -->
-   <label for="collection_name">コレクション名</label>
-   <input type="button" value="add collection" id="btn_c_add">
-   <br> 
-   <input type="text" id="collection_name" name="collection_name">
-   <ul style="list-style:none;">
-		<li>
-			ドキュメント
-			<input type="button" value="add document" id="btn_d_add"><br>
-			<ul id="document_list">
-				<li><input type="text" name="document_list_0"></li>
-			</ul>	
-		</li>
-   </ul>
    
-  <p><label>Input JSON</label>
-  <br>
-  <input type="text" name="answer"></p>
-  <!-- 解答送信ボタン -->
-  <input type="submit" value="Submit">
- 
+  <p><label>Input JSON</label></p>
+   <!-- コレクション名 -->
+   <label for="collection_name">コレクション</label>
+	<input type="button" value="add collection" id="btn_c_add">
+   	<br> 
+	<ul style="list-style:none;" id="collection_list" >
+	<li>
+   		<input type="text" id="collection_list_0" name="collection_list_0">
+   </li> 		
+   		
+   	<li><br>		  
+				ドキュメント
+				<input type="button" value="add document" id="btn_d_0" class="btn_d_add"><br>
+				<ul id="document_0" class="document_list">
+					<li><input type="text" name="document_0_0"></li>
+				</ul>
+		
+	 </li>
+   </ul>
+  
 </form>
 
 <br>
