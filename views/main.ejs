@@ -26,7 +26,7 @@
 <br>
 
 <!-- JSON入力フィールド -->
-<form method="POST" action="/answer">
+<form method="POST" action="/answer" target="comment">
  <fieldset>
    <!--　問題番号等 -->
 	<input type="hidden" id="q_id" name="q_id" value="0">
@@ -55,8 +55,13 @@
 <br>
 
 <!--　フィードバックフィールド -->
-	<p><textarea id="feedback" cols="40" rows="10"><%= comment %></textarea></p>
-
+	<iframe name="comment" src="/comment" width="400" height="100"scrolling="auto" >
+	</iframe>
+	
+<!-- 	
+	<p><textarea id="feedback" cols="40" rows="10">
+	<%= comment %></textarea></p>
+ -->
 	
 	<body>
 </html>

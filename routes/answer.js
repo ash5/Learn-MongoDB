@@ -32,7 +32,7 @@ exports.insert = function(req,res){
 		console.log("json=",data);
 	}catch(e){//エラーをフィードバック表示
 		console.error("parsing error",e);
-		 res.render('main', {
+		 res.render('comment', {
 			    comment: 'parsing error'
 			  });
 	}
@@ -82,8 +82,10 @@ tmp.forEach(function(doc){
 		*/
 	});
 	
-	//mainに戻る。
-		res.redirect('/main');
+	//フィードバックを表示。
+	res.render('comment', {
+    comment: 'Finish!'
+	});
 };
 
 

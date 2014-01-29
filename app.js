@@ -42,10 +42,12 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+
 app.get('/', routes.index);
 app.get('/users', user.list);
 
 app.get('/form', routes.form);
+
 app.post('/create', routes.create);
 
 app.post('/lucky',routes.lucky);
@@ -57,6 +59,14 @@ app.get('/main',function(req,res){
 	  res.render('main', {
 		    comment: ''
 		  });
+});
+
+//feedbackコメント
+
+app.get('/comment',function(req,res){
+	res.render('comment', {
+    comment: 'ここにフィードバックが表示されます'
+    	});
 });
 
 //オウム返しサンプル用
