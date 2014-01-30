@@ -10,7 +10,8 @@
     {
     	"q_id" : 2 ,
     	"sentence" : "this is sample question 2",
-    	"query" : "find({\"a\":1},{\"b\":1})",
+    	"query" : {"q1":"a.find({\"a\":1},{\"b\":1})",
+    				"q2":"b.find({\"a\":1})"},
     	"model_answer" :{"a":5,"b":6},
     	"result":"\"b\":[1,2,3],\"a\":1,\"c\":1"
 	

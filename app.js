@@ -52,7 +52,11 @@ app.post('/create', routes.create);
 
 app.post('/lucky',routes.lucky);
 
-app.post('/answer',answer.insert);
+//app.post('/answer',answer.insert);
+
+//デバッグ用
+var debug = require('./routes/debug');
+app.post('/debug',debug.insert);
 
 //Mainページ
 app.get('/main',function(req,res){

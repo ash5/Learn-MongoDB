@@ -14,12 +14,27 @@ $(function(){
 		$.getJSON(json_file,function(json){
 			//textはテキスト部分の書き換え
 			$("#mondai").text("問題"+json[i].q_id+"は"+json[i].sentence+"\r\n");
-
+			
 			//q_idtなどのセット
 			document.getElementById('q_id').value = json[i].q_id;
 			document.getElementById('q_result').value = json[i].result;
-			document.getElementById('q_query').value = json[i].query;
+				
+			//複数クエリのセット
+			var j = 1;
+			while(typeof json[i].query['q'+j]!= "undefined"){
+				
+				var s = json[i].query['q'+j];
+				var r = s.indexOf(".");
+				
+				var col_name = s.slice(0,r);
+				var query = s.slice(r+1);
 
+				var new_col='<input type="hidden" id="q_query_col_'+j+'" name="q_query_col_'+j+'" value="'+col_name+'">';
+				var new_query='<input type="hidden" id="q_query_'+j+'" name="q_query_'+j+'" value='+query+'>';
+					
+				$("#q_id").append(new_col+new_query);
+				j++;
+			}
 		});
 	}
 	
@@ -154,7 +169,7 @@ $(function(){
 	    	
 	   		//入力欄の番号を振りなおす
 	   		for(var j=0; j<len_d_list; j++){
-	    			$("#"+id).find('li:eq('+j+') input[type="text"]').attr('name',id+"_"+i);	
+	    			$("#"+id).find('li:eq('+j+') input[type="text"]').attr('name',id+"_"+j);	
 	   		}	   		
 	    }
 	    
