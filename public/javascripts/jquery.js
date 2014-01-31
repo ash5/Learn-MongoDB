@@ -41,17 +41,32 @@ $(function(){
 //--------------------------	
 //Testボタンを押した時の動作	
 //--------------------------
+	var hint_level = 0; //ヒントレベル
 	$("#test_button").click(function (){
-
-		$.getJSON('/question/question.json',function(json){
-
-		var answer = json[0].model_answer;
-	    var str_tmp="";
 		
-		str_work=MakeHint(answer,5);
-//		str_tmp=trace(answer);
-			//指定した要素のHTMLに指定値をセットする．
-			$("#test").html(str_work);					
+		hint_level++;  //ヒントレベルをあげる．		
+		$.getJSON('/question/question.json',function(json){
+			alert("Hint_level="+hint_level);
+		
+		var write_html = ''; //書き込み用　HTML
+		var answer = json[0].model_answer;
+		var col_num = answer.length;
+		
+		for (i=0; i<col_num; i++)
+		{	
+			//コレクション名の出力
+			write_html += "<p>COLLECTION = "+answer[i].collection+"</p>";
+			var doc_num = answer[i].document.length;
+		
+			for (j=0; j<doc_num; j++){
+				var str_tmp="";
+				str_tmp = MakeHint(answer[i].document[j],hint_level);
+				write_html +='<textarea cols="40" rows="4">'+str_tmp+'</textarea><br>';
+				
+			};
+		}	
+		$('div#hint').html(write_html);
+			
 		});//getJSON end		
 		
 	});
@@ -70,14 +85,14 @@ $(function(){
 			var id = "document_"+id_num;		//ドキュメントのID
 			var len_list=$("#"+id).children('li').length;
 			
-			var new_list='<li><input type="text" name='+id+'_'+len_list+'></li>';
+			var new_list='<li><textarea cols="40" rows="4" name='+id+'_'+len_list+'></textarea></li>';
 			$("#"+id).append(new_list);
 		
 		//削除ボタンを一旦全消去し、配置しなおす
 			$("#"+id).find('input[type="button"]').remove();		
 			len_list++;
 			for(var i=0; i<len_list; i++){
-				var new_btn='<input type="button" value="削除" id=d_del_'+id_num+'>';
+				var new_btn='<input type="button" value="削除"  id=d_del_'+id_num+'>';
 				$("#"+id).find('li:eq('+i+')').append(new_btn);
 			};	
 	});
@@ -100,7 +115,7 @@ $(function(){
 		if(len_list==1)$("#"+id).find('input[type="button"]').remove();	
 		//入力欄の番号を振りなおす
 		for(var i=0; i<len_list; i++){
-			$("#"+id).find('li:eq('+i+') input[type="text"]').attr('name',id+"_"+i);	
+			$("#"+id).find('li:eq('+i+') textarea').attr('name',id+"_"+i);	
 		}
 		
 	});	
@@ -118,7 +133,7 @@ $(function(){
 		var len_list=$('#collection_list>li').length / 2;
 		
 		var new_list='<li><hr><input type="text" id='+prefix_c+len_list+' name='+prefix_c+len_list+'></li>';
-		var new_list=new_list +'<li><br>ドキュメント	<input type="button" value="add document" id='+prefix_b+len_list+' class="btn_d_add"><br><ul id='+prefix_d+len_list+' class="document_list"><li><input type="text" name='+prefix_d+len_list+'_0></li></ul>';
+		var new_list=new_list +'<li><br>ドキュメント	<input type="button" value="add document" id='+prefix_b+len_list+' class="btn_d_add"><br><ul id='+prefix_d+len_list+' class="document_list"><li><textarea cols="40" rows="4" name='+prefix_d+len_list+'_0></textarea></li></ul>';
 		$('#collection_list').append(new_list);
 
 		ResetCdel();
@@ -169,7 +184,7 @@ $(function(){
 	    	
 	   		//入力欄の番号を振りなおす
 	   		for(var j=0; j<len_d_list; j++){
-	    			$("#"+id).find('li:eq('+j+') input[type="text"]').attr('name',id+"_"+j);	
+	   			$("#"+id).find('li:eq('+j+') textarea').attr('name',id+"_"+j);	
 	   		}	   		
 	    }
 	    

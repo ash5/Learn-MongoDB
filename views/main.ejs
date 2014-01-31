@@ -46,8 +46,8 @@
 	   		 	<li><br>		  
 					ドキュメント
 					<input type="button" value="add document" id="btn_d_0" class="btn_d_add"><br>
-					<ul id="document_0" class="document_list">
-						<li><input type="text" name="document_0_0"></li>
+					<ul style="list-style:none;" id="document_0" class="document_list">
+						<li><textarea cols="40" rows="4"  name="document_0_0"></textarea></li>
 					</ul>
 				</li>
 			</ul>
@@ -64,7 +64,8 @@
 <!-- ヒント表示　ボタン -->
 	<input id="test_button" type="button" value="Test">
 <!-- ヒント表示フィールド -->
-	<p><textarea id="test" cols="40" rows="10"></textarea></p>
+	<div id="hint"></div>
+
 <br>
 <hr>
 <br>
