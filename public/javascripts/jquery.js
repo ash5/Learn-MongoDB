@@ -23,16 +23,13 @@ $(function(){
 		hint_level = 0;
 		$.getJSON(json_file,function(json){
 			//textはテキスト部分の書き換え
-			$("#mondai").text("問題"+json[i].q_id+"は"+json[i].sentence+"\r\n");
-			
+			makeQuestion(json,i);
 			//q_idtなどのセット
 			document.getElementById('q_id').value = json[i].q_id;
 			document.getElementById('q_result').value = JSON.stringify(json[i].result);
-				
+			document.getElementById('q_feedback').value = json[i].feedback;	
 			//複数クエリのセット
-			
 			var j = 1;
-
 			var write_query ='';
 			while(typeof json[i].query['q'+j]!= "undefined"){
 				
@@ -55,6 +52,73 @@ $(function(){
 		
 	}
 	
+	//---------
+	//問題文の作成
+	//---------
+	
+	function makeQuestion(json,i){
+		//問題エリアの初期化
+		$("#key").text('');
+		$("#value").text('');
+		$("#q_r").text('');
+		
+		//作成
+		//問題文
+		$("#mondai").text("問題"+json[i].q_id+"は"+json[i].sentence+"\r\n");
+		//key
+		for(j=0;j<json[i].key.length;j++){
+					$("#key").append(json[i].key[j]+",");
+		}
+		//value
+		for(j=0;j<json[i].value.length;j++){
+			$("#value").append(json[i].value[j]+",");
+		}
+		
+		//クエリと操作結果
+		var j = 1;
+		var write_query ='';
+		while(typeof json[i].query['q'+j]!= "undefined"){
+			var q = json[i].query['q'+j];
+			var r = json[i].result['q'+j];
+			
+			$("#q_r").append("query:"+q+"<br>");
+			
+			for(var l in r){
+				$("#q_r").append("result:"+JSON.stringify(r[l])+"<br>");
+			}
+			
+			j++;
+		}
+		
+
+	}
+	
+	
+	//キャレット位置に挿入
+	/*
+	$(document).on('click','.k_v',function(){
+	alert("click"+$(this).text());
+	///$(this).html("AAA");
+	insertAtCaret('.temp',"AAA");
+	});
+	
+
+	function insertAtCaret(target, str) {
+		  var obj = $(target);
+		  obj.focus();
+		  if(navigator.userAgent.match(/MSIE/)) {
+		    var r = document.selection.createRange();
+		    r.text = str;
+		    r.select();
+		  } else {
+		    var s = obj.val();
+		    var p = obj.get(0).selectionStart;
+		    var np = p + str.length;
+		    obj.val(s.substr(0, p) + str + s.substr(p));
+		    obj.get(0).setSelectionRange(np, np);
+		  }
+		}
+		*/
 	//----------
 	//ボタンの作成
 	//----------
@@ -98,7 +162,7 @@ $(function(){
 		hint_level++;  //ヒントレベルをあげる．		
 		$.getJSON(json_file,function(json){
 			alert("Hint_level="+hint_level);
-		var q_num = document.getElementById('q_num').value
+		var q_num = document.getElementById('q_num').value;
 		var write_html = ''; //書き込み用　HTML
 		var answer = json[q_num].model_answer;
 		var col_num = answer.length;

@@ -120,8 +120,7 @@ exports.insert = function(req,res){
 			var tmp_i = i+1;
 			var q_length = q_result['q'+tmp_i].length;//結果の数
 			
-			//要素数の確認
-		//	cursor.count(function(err,count){console.log(count);});
+			
 			//--------
 			//操作結果とカーソルの値を比較
 	
@@ -129,11 +128,20 @@ exports.insert = function(req,res){
 			//--------
 	
 			compCur(tmp_i);
-			
-			
+
 			function compCur(i){
-		
-				cursor.forEach(function(cur){		
+			
+				//要素数の確認
+				var c = 0 ;
+				var cur_num = 0;
+				cursor.count(function(err,count){
+					c = count;
+				});
+				
+			
+				cursor.forEach(function(cur){
+					cur_num++;
+					console.log("cn="+cur_num+"c="+c);
 					for(j=0;j<q_length;j++){
 						console.log("i="+i+"j="+j); 
 						console.log("hikaku="+JSON.stringify(q_result['q'+i][j])); 
@@ -149,13 +157,13 @@ exports.insert = function(req,res){
 						}else{
 							console.log("notCheck["+i+"]["+j+"]");
 						}
-						
-						if(i==query.length&&j==q_result['q'+i].length-1){
-							console.log("LAST");
-							checkResult();
-						}
-
 					};
+					//すべてのチェックが完了したらフィードバック
+					if(i==query.length&&j==q_result['q'+i].length&&cur_num==c){
+						console.log("LAST=i="+i+"j="+j);
+						checkResult();
+					}else{console.log("STOP");};
+					
 				});
 			};	
 		};		
@@ -172,7 +180,6 @@ exports.insert = function(req,res){
 			for (j=0; j<q_result['q'+i].length; j++){
 				console.log("!!Check["+i+"]["+j+"]=="+check[i][j]);
 				if(check[i][j] != 1)ALL++;
-				
 			};
 		};
 	
@@ -182,6 +189,7 @@ exports.insert = function(req,res){
 			
 			res.render('comment', {
 			    comment: 'PerFect',
+		    	feedback:data.q_feedback
 
 			  });
 	

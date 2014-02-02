@@ -68,7 +68,9 @@ app.get('/main',function(req,res){
 
 app.get('/comment',function(req,res){
 	res.render('comment', {
-    comment: 'ここにフィードバックが表示されます'
+    comment: 'ここにフィードバックが表示されます',
+    feedback:''
+    	
     	});
 });
 
