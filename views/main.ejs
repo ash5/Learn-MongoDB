@@ -3,17 +3,22 @@
 		<title>TestPage</title>
 		
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="/javascripts/script.js"></script>
 		<script src="/javascripts/jquery.js"></script>
-		
+	
 	</head>
 	
 	<body>
 	
 	<h1>Sample</h1>
 
-<!-- Start ボタン -->
-<input id="start" type="button" value="START">
+<!-- 選択プルダウン　-->
+<select id="sel_question" name="sel_question">
+	<option value="" selected>選択してください</option>
+	<option value="question">1</option>
+	<option value="question">2</option>
+	<option value="question">3</option>
+</select>
+<input type="hidden" id="q_num" name="q_num" value="0">
 
 <!-- 問題表示フィールド -->
 
@@ -21,6 +26,7 @@
    てすと
 　　	</div>
 
+   <div id="button"></div>
 <br>
 <hr>
 <br>
@@ -71,16 +77,7 @@
 <br>
 
 <!--　フィードバックフィールド -->
-	<iframe name="comment" src="/comment" width="400" height="100" scrolling="auto" >
-	</iframe>
-
-<br>
-<hr>
-<br>
-
-<!-- 次の問題の表示 -->
-	<iframe name="next" src="/next" width="400" height="100" frameborder="0" >
-
+	<iframe id="comment" name="comment" src="/comment" width="400" height="100" scrolling="auto"  >
 	</iframe>
 		
 

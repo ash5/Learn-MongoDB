@@ -178,11 +178,20 @@ exports.insert = function(req,res){
 	
 		if(ALL==0){
 			console.log("Perfect");
+			
+			
 			res.render('comment', {
-			    comment: 'PerFect'
+			    comment: 'PerFect',
+
 			  });
+	
+		
 		}else{
 			console.log("NOT");
+			res.render('comment', {
+			    comment: 'NOT',
+
+			  });
 		}
 
 	}
@@ -200,15 +209,10 @@ exports.insert = function(req,res){
 		col[i].remove();		
 	}
 	
-/*
-	res.render('comment', {
-	    comment: 'DEBUG END'
-	  });
-	*/
-	
 
+    var checkNext = '<input type="hidden" id="next_b"  value="1">';
+	
 	
 };
-
 
 

@@ -52,7 +52,6 @@ app.post('/create', routes.create);
 
 app.post('/lucky',routes.lucky);
 
-//app.post('/answer',answer.insert);
 
 //デバッグ用
 var debug = require('./routes/debug');
@@ -72,6 +71,14 @@ app.get('/comment',function(req,res){
     comment: 'ここにフィードバックが表示されます'
     	});
 });
+
+//feedbackコメント
+app.get('/next',function(req,res){
+	res.render('next', {
+    next: 'TEST'
+    	});
+});
+
 
 //オウム返しサンプル用
 

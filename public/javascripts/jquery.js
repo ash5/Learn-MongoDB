@@ -1,16 +1,26 @@
 $(function(){
+	var json_file ='';
+	var hint_level = 0; //ヒントレベル
+//-------------------------
+//SELECTされた時の動作
+//-------------------------
+	$("#sel_question").change(function(){
+		//選択されたら
+		var sel_val = $("#sel_question option:selected").attr("value");
+		if(sel_val != ""){
+			json_file = '/question/'+sel_val+'.json';
+			var i = document.getElementById('q_num').value=0;//問題番号の初期化
+			getQuestion(i,json_file);
+		}
+	});
 	
-
-
 //--------------------------
 //Startボタンを押した際の動作	
 //--------------------------
 	$("#start").click({id:1},getQuestion);
-	function getQuestion(q){
 	
-		var json_file = '/question/question.json';
-		var i = q.data.id;
-	
+	function getQuestion(i,json_file){	
+		hint_level = 0;
 		$.getJSON(json_file,function(json){
 			//textはテキスト部分の書き換え
 			$("#mondai").text("問題"+json[i].q_id+"は"+json[i].sentence+"\r\n");
@@ -39,21 +49,58 @@ $(function(){
 				j++;
 			}
 			$("div#q_query").html(write_query);
+			
+			makeButton(i,json.length);
 		});
+		
 	}
+	
+	//----------
+	//ボタンの作成
+	//----------
+	
+	function makeButton(i,l){
+		var write_html = '';
+		//戻るボタン
+		if(i > 0){
+			write_html = write_html + '<input type="button" value="Prev" id="b_prev">';
+		}
+		//進むボタン
+		if(i < l-1)			
+		{
+			write_html = write_html + '<input type="button" value="NEXT" id="b_next" class="btn">';
+		}		
+		$('div#button').html(write_html);		
+	}
+	
+	//戻るボタンの処理
+	$(document).on('click','#b_prev',function(){
+		var i = document.getElementById('q_num').value;
+		i--;
+		document.getElementById('q_num').value = i;
+		getQuestion(i,json_file);
+	});
+	
+	//進むボタンの処理
+	$(document).on('click','#b_next',function(){
+		var i = document.getElementById('q_num').value;
+		i++;
+		document.getElementById('q_num').value = i;
+		getQuestion(i,json_file);
+	});	
 	
 //--------------------------	
 //Testボタンを押した時の動作	
 //--------------------------
-	var hint_level = 0; //ヒントレベル
+
 	$("#test_button").click(function (){
 		
 		hint_level++;  //ヒントレベルをあげる．		
-		$.getJSON('/question/question.json',function(json){
+		$.getJSON(json_file,function(json){
 			alert("Hint_level="+hint_level);
-		
+		var q_num = document.getElementById('q_num').value
 		var write_html = ''; //書き込み用　HTML
-		var answer = json[0].model_answer;
+		var answer = json[q_num].model_answer;
 		var col_num = answer.length;
 		
 		for (i=0; i<col_num; i++)
@@ -137,7 +184,7 @@ $(function(){
 		var len_list=$('#collection_list>li').length / 2;
 		
 		var new_list='<li><hr><input type="text" id='+prefix_c+len_list+' name='+prefix_c+len_list+'></li>';
-		var new_list=new_list +'<li><br>ドキュメント	<input type="button" value="add document" id='+prefix_b+len_list+' class="btn_d_add"><br><ul id='+prefix_d+len_list+' class="document_list"><li><textarea cols="40" rows="4" name='+prefix_d+len_list+'_0></textarea></li></ul>';
+		var new_list=new_list +'<li><br>ドキュメント	<input type="button" value="add document" id='+prefix_b+len_list+' class="btn_d_add"><br><ul style="list-style:none;" id='+prefix_d+len_list+' class="document_list"><li><textarea cols="40" rows="4" name='+prefix_d+len_list+'_0></textarea></li></ul>';
 		$('#collection_list').append(new_list);
 
 		ResetCdel();
