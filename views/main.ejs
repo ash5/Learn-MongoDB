@@ -32,7 +32,7 @@
 		<!--　問題番号等 -->
 		<input type="hidden" id="q_id" name="q_id" value="0">
 		<input type="hidden" id="q_result" name="q_result" value="">
-		
+		<div id="q_query"></div>
 	  
 		<p><label>Input JSON</label></p>
 		<!-- コレクション名 -->
@@ -71,13 +71,18 @@
 <br>
 
 <!--　フィードバックフィールド -->
-	<iframe name="comment" src="/comment" width="400" height="100"scrolling="auto" >
+	<iframe name="comment" src="/comment" width="400" height="100" scrolling="auto" >
 	</iframe>
-	
-<!-- 	
-	<p><textarea id="feedback" cols="40" rows="10">
-	<%= comment %></textarea></p>
- -->
-	
+
+<br>
+<hr>
+<br>
+
+<!-- 次の問題の表示 -->
+	<iframe name="next" src="/next" width="400" height="100" frameborder="0" >
+
+	</iframe>
+		
+
 	<body>
 </html>

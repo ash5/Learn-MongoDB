@@ -17,10 +17,13 @@ $(function(){
 			
 			//q_idtなどのセット
 			document.getElementById('q_id').value = json[i].q_id;
-			document.getElementById('q_result').value = json[i].result;
+			document.getElementById('q_result').value = JSON.stringify(json[i].result);
 				
 			//複数クエリのセット
+			
 			var j = 1;
+
+			var write_query ='';
 			while(typeof json[i].query['q'+j]!= "undefined"){
 				
 				var s = json[i].query['q'+j];
@@ -31,10 +34,11 @@ $(function(){
 
 				var new_col='<input type="hidden" id="q_query_col_'+j+'" name="q_query_col_'+j+'" value="'+col_name+'">';
 				var new_query='<input type="hidden" id="q_query_'+j+'" name="q_query_'+j+'" value='+query+'>';
-					
-				$("#q_id").append(new_col+new_query);
+				write_query = write_query+new_col+new_query;
+				
 				j++;
 			}
+			$("div#q_query").html(write_query);
 		});
 	}
 	

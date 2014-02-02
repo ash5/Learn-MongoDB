@@ -10,7 +10,6 @@
 	var querystring = require("querystring");
 	
 exports.insert = function(req,res){
-
 	
 	//decide collection_name
 	var col1_name = "test";
