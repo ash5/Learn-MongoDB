@@ -131,7 +131,7 @@ $(function(){
 		//進むボタン
 		if(i < l-1)			
 		{
-			write_html = write_html + '<input type="button" value="NEXT" id="b_next" class="btn-success btn-lg pull-right" >';
+			write_html = write_html + '<input type="button" value="Next" id="b_next" class="btn-success btn-lg pull-right" >';
 		}		
 		$('div#button').html(write_html);		
 	}

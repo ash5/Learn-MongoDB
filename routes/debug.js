@@ -67,6 +67,7 @@ exports.insert = function(req,res){
 				var d = JSON.parse(doc[i][j]);// 解答の入力文字列をJSONオブジェクトに変換
 				console.log("json=",doc[i][j]); //デバッグ
 				col[i].insert(d); //コレクションにドキュメントを追加
+				
 			}catch(e){//エラーをフィードバック表示
 				console.error("parsing error",e);
 				 res.render('comment', {
@@ -76,7 +77,7 @@ exports.insert = function(req,res){
 		}
 	} 
 
-	
+	 col[0].find().forEach(function(post){console.log("TMP col[0]=",post);});
 	//-----------解答のクエリに関する設定
 
 	//コレクション名とクエリの保存
@@ -136,6 +137,7 @@ exports.insert = function(req,res){
 				var cur_num = 0;
 				cursor.count(function(err,count){
 					c = count;
+					console.log("!cn="+cur_num+"c="+c);
 				});
 				
 			
@@ -198,7 +200,7 @@ exports.insert = function(req,res){
 			console.log("NOT");
 			res.render('comment', {
 			    comment: 'NOT',
-
+			    feedback:''
 			  });
 		}
 
