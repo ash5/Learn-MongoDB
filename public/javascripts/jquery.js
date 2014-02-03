@@ -1,6 +1,8 @@
 $(function(){
 	var json_file ='';
 	var hint_level = 0; //ヒントレベル
+	
+	var coler = ['primary','success','info','warning','danger'];
 //-------------------------
 //SELECTされた時の動作
 //-------------------------
@@ -64,61 +66,58 @@ $(function(){
 		
 		//作成
 		//問題文
-		$("#mondai").text("問題"+json[i].q_id+"は"+json[i].sentence+"\r\n");
+		
+		
+		$("#mondai").html('<h2><p class="text-info">Q'+
+			json[i].q_id+'</p>'+'<small>'+json[i].sentence+'</small></h2>');
 		//key
+		var write_key = '<h4><p class="text-info">Key</p><p class="bg-warning">';
 		for(j=0;j<json[i].key.length;j++){
-					$("#key").append(json[i].key[j]+",");
+			write_key = write_key + json[i].key[j]+",";
 		}
+		write_key += '</p>';
+		$("#key").html(write_key);
 		//value
+		
+		var write_value = '<h4><p class="text-info">Value</p><p class="bg-warning">';
 		for(j=0;j<json[i].value.length;j++){
-			$("#value").append(json[i].value[j]+",");
+			write_value +=json[i].value[j]+",";
 		}
+		write_value += '</p>';
+		$("#value").html(write_value);
 		
 		//クエリと操作結果
+		
 		var j = 1;
 		var write_query ='';
+				
 		while(typeof json[i].query['q'+j]!= "undefined"){
+			var	 mod = (j-1) % 5; 
 			var q = json[i].query['q'+j];
 			var r = json[i].result['q'+j];
 			
-			$("#q_r").append("query:"+q+"<br>");
+			write_query += '<h4><small>query'+
+					j+'  </small>'+q+'</h4>';
+			//$("#q_r").append("query:"+q+"<br>");
 			
+			write_query += '<p class="bg-'+coler[mod]+'">';
 			for(var l in r){
-				$("#q_r").append("result:"+JSON.stringify(r[l])+"<br>");
+				write_query += 'query'+
+				l+' : '+JSON.stringify(r[l])+'<br>';
+			
+				//	$("#q_r").append("result:"+JSON.stringify(r[l])+"<br>");
 			}
+			write_query += '</p>';
 			
 			j++;
 		}
 		
+		$("#q_r").html(write_query);
+		
 
 	}
 	
-	
-	//キャレット位置に挿入
-	/*
-	$(document).on('click','.k_v',function(){
-	alert("click"+$(this).text());
-	///$(this).html("AAA");
-	insertAtCaret('.temp',"AAA");
-	});
-	
 
-	function insertAtCaret(target, str) {
-		  var obj = $(target);
-		  obj.focus();
-		  if(navigator.userAgent.match(/MSIE/)) {
-		    var r = document.selection.createRange();
-		    r.text = str;
-		    r.select();
-		  } else {
-		    var s = obj.val();
-		    var p = obj.get(0).selectionStart;
-		    var np = p + str.length;
-		    obj.val(s.substr(0, p) + str + s.substr(p));
-		    obj.get(0).setSelectionRange(np, np);
-		  }
-		}
-		*/
 	//----------
 	//ボタンの作成
 	//----------
@@ -127,12 +126,12 @@ $(function(){
 		var write_html = '';
 		//戻るボタン
 		if(i > 0){
-			write_html = write_html + '<input type="button" value="Prev" id="b_prev">';
+			write_html = write_html + '<input type="button" value="Prev" id="b_prev" class="btn-default btn-lg pull-left">';
 		}
 		//進むボタン
 		if(i < l-1)			
 		{
-			write_html = write_html + '<input type="button" value="NEXT" id="b_next" class="btn">';
+			write_html = write_html + '<input type="button" value="NEXT" id="b_next" class="btn-success btn-lg pull-right" >';
 		}		
 		$('div#button').html(write_html);		
 	}
@@ -154,14 +153,14 @@ $(function(){
 	});	
 	
 //--------------------------	
-//Testボタンを押した時の動作	
+//Hintボタンを押した時の動作	
 //--------------------------
 
 	$("#test_button").click(function (){
 		
 		hint_level++;  //ヒントレベルをあげる．		
 		$.getJSON(json_file,function(json){
-			alert("Hint_level="+hint_level);
+		//	alert("Hint_level="+hint_level);
 		var q_num = document.getElementById('q_num').value;
 		var write_html = ''; //書き込み用　HTML
 		var answer = json[q_num].model_answer;
@@ -170,13 +169,13 @@ $(function(){
 		for (i=0; i<col_num; i++)
 		{	
 			//コレクション名の出力
-			write_html += "<p>COLLECTION = "+answer[i].collection+"</p>";
+			write_html += '<p class="bg-success">COLLECTION '+answer[i].collection+"</p>";
 			var doc_num = answer[i].document.length;
 		
 			for (j=0; j<doc_num; j++){
 				var str_tmp="";
 				str_tmp = MakeHint(answer[i].document[j],hint_level);
-				write_html +='<textarea cols="40" rows="4">'+str_tmp+'</textarea><br>';
+				write_html +='<textarea cols="40" rows="4" class="form-control" style="font-weight:bold">'+str_tmp+'</textarea><br>';
 				
 			};
 		}	
@@ -200,14 +199,15 @@ $(function(){
 			var id = "document_"+id_num;		//ドキュメントのID
 			var len_list=$("#"+id).children('li').length;
 			
-			var new_list='<li><textarea cols="40" rows="4" name='+id+'_'+len_list+'></textarea></li>';
+			var new_list='<li><textarea cols="40" rows="4" name='+id+'_'+len_list+' placeholder="Document" class="form-control"></textarea></li>';
 			$("#"+id).append(new_list);
 		
 		//削除ボタンを一旦全消去し、配置しなおす
 			$("#"+id).find('input[type="button"]').remove();		
+			$("#"+id).find('hr').remove();	
 			len_list++;
 			for(var i=0; i<len_list; i++){
-				var new_btn='<input type="button" value="削除"  id=d_del_'+id_num+'>';
+				var new_btn='<input type="button" value="delete"  id=d_del_'+id_num+' class="btn-danger btn-xs pull-right"  ><hr>';
 				$("#"+id).find('li:eq('+i+')').append(new_btn);
 			};	
 	});
@@ -247,8 +247,8 @@ $(function(){
 		//コレクション入力欄を追加 
 		var len_list=$('#collection_list>li').length / 2;
 		
-		var new_list='<li><hr><input type="text" id='+prefix_c+len_list+' name='+prefix_c+len_list+'></li>';
-		var new_list=new_list +'<li><br>ドキュメント	<input type="button" value="add document" id='+prefix_b+len_list+' class="btn_d_add"><br><ul style="list-style:none;" id='+prefix_d+len_list+' class="document_list"><li><textarea cols="40" rows="4" name='+prefix_d+len_list+'_0></textarea></li></ul>';
+		var new_list='<li><hr><input type="text" id='+prefix_c+len_list+' name='+prefix_c+len_list+' placeholder="Collection" class="form-control"></li>';
+		var new_list=new_list +'<li><br><input type="button" value="add document" id='+prefix_b+len_list+' class="btn_d_add btn-default btn-sm"><br><ul style="list-style:none;" id='+prefix_d+len_list+' class="document_list"><li><textarea cols="40" rows="4" name='+prefix_d+len_list+'_0 placeholder="Document" class="form-control"></textarea></li></ul>';
 		$('#collection_list').append(new_list);
 
 		ResetCdel();
@@ -326,7 +326,7 @@ function ResetCdel(){
 	var len_list=$('#collection_list>li').length / 2;
 	len_list++;
 	for(var i=0; i<len_list; i++){
-		var new_btn='<input type="button" value="削除" class="c_del" id=c_del_'+i+'>';
+		var new_btn='<input type="button" value="delete" class="c_del btn-danger btn-xs" id=c_del_'+i+'>';
 		$('#collection_list>li:eq('+i*2+')').append(new_btn);
 	}
 };
