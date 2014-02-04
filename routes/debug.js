@@ -71,13 +71,14 @@ exports.insert = function(req,res){
 			}catch(e){//エラーをフィードバック表示
 				console.error("parsing error",e);
 				 res.render('comment', {
-					    comment: 'parsing error'
+					    comment: 'parsing error',
+					    feedback:''
 					  });
 			};
 		}
 	} 
 
-	 col[0].find().forEach(function(post){console.log("TMP col[0]=",post);});
+	 col[0].find().forEach(function(post){console.log("TMP col=",post);});
 	//-----------解答のクエリに関する設定
 
 	//コレクション名とクエリの保存
@@ -117,7 +118,18 @@ exports.insert = function(req,res){
 		
 		for(i=0;i<query.length;i++){
 			var tmp = "q_col["+i+"]."+query[i];
-			var cursor = eval(tmp);		
+			
+			try{
+				var cursor = eval(tmp);
+			}catch(e){
+				console.error("parsing error",e);
+				 res.render('comment', {
+					    comment: 'query error',
+					    	feedback:''
+					  });
+			}
+			
+			//var cursor = eval(tmp);		
 			var tmp_i = i+1;
 			var q_length = q_result['q'+tmp_i].length;//結果の数
 			

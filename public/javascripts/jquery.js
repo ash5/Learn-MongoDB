@@ -24,6 +24,7 @@ $(function(){
 	$("#start").click({id:1},getQuestion);
 	
 	function getQuestion(i,json_file){	
+		
 		hint_level = 0;
 		$.getJSON(json_file,function(json){
 			//textはテキスト部分の書き換え
@@ -51,14 +52,20 @@ $(function(){
 			}
 			$("div#q_query").html(write_query);
 			
-			makeButton(i,json.length);
-			
-			
-			//---Form確認用にコレクション名を配列q_col_name[]に保存
+			makeButton(i,json.length);	
 
 			
 		});
+		 reloadComment();
 		
+	}
+	
+	//iframeのリロード（初期化）
+	function reloadComment(){
+	
+		var iframe = document.getElementById("comment");
+		iframe.src = iframe.src;
+	
 	}
 	
 	//---------
