@@ -49,7 +49,7 @@
 	<div class="row">
 		<div class="col-lg-6 col-md-6">
 			<!-- JSON入力フィールド -->
-			<form method="POST" action="/debug" target="comment">
+			<form action="/debug" method="post" target="comment" onsubmit="return chkForm(this)" name="form">
 				<fieldset>
 					
 					<!--　問題番号等 -->
@@ -72,19 +72,20 @@
 							
 								<input type="button" value="add document" id="btn_d_0" class="btn_d_add btn-default btn-sm"><br>
 								<ul style="list-style:none;" id="document_0" class="document_list">
-									<li><textarea cols="40" rows="4"  name="document_0_0" placeholder="Document" class="form-control"></textarea></li>
+									<li><textarea cols="40" rows="4"  id="document_0_0" name="document_0_0" placeholder="Document" class="form-control"></textarea></li>
 								</ul>
 							</li>
 						</ul>
 					<!-- 解答送信ボタン -->
-					<!--  <input type="submit" value="Submit"> -->
-					<button type="submit"  class="btn-primary btn-lg ">
-				<span class="glyphicon glyphicon-ok"></span> Submit</button>
+					  <!-- <input type="submit" value="Submit">  --> 
+				<button type="submit"  class="btn-primary btn-lg ">
+				<span class="glyphicon glyphicon-ok"></span> Submit</button> 
 					
 				</fieldset>
 			</form>
 		</div>
-		
+
+
 		<div class="col-lg-6 col-md-6">
 			<!-- ヒント表示　ボタン -->
 				<!--  
@@ -102,6 +103,9 @@
 		<br>
 		
 		<!--　フィードバックフィールド -->
+			<!-- クライアント側 -->
+			<div id = "error"></div>
+			<!-- サーバー側 -->
 			<iframe id="comment" name="comment" src="/comment" width="400" height="150" scrolling="auto" frameborder="0" >
 			</iframe>
 				

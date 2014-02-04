@@ -1,5 +1,7 @@
+var json_file ='';
+
 $(function(){
-	var json_file ='';
+	json_file ='';
 	var hint_level = 0; //ヒントレベル
 	
 	var coler = ['primary','success','info','warning','danger'];
@@ -50,6 +52,11 @@ $(function(){
 			$("div#q_query").html(write_query);
 			
 			makeButton(i,json.length);
+			
+			
+			//---Form確認用にコレクション名を配列q_col_name[]に保存
+
+			
 		});
 		
 	}
@@ -173,9 +180,18 @@ $(function(){
 			var doc_num = answer[i].document.length;
 		
 			for (j=0; j<doc_num; j++){
-				var str_tmp="";
+				var str_tmp='';
 				str_tmp = MakeHint(answer[i].document[j],hint_level);
-				write_html +='<textarea cols="40" rows="4" class="form-control" style="font-weight:bold">'+str_tmp+'</textarea><br>';
+				//ヒントレベルに応じてヒントボックスの色変更
+				if(str_tmp.last == hint_level){
+					var col_tmp = 'background-color:#FFFACD';
+				}else if(str_tmp.last < hint_level){
+					var col_tmp = 'background-color:#FFE4E1';
+				}else{
+					var col_tmp = '';
+				}
+				
+				write_html +='<textarea cols="40" rows="4" class="form-control" style="font-weight:bold;'+col_tmp+'">'+str_tmp.str+'</textarea><br>';
 				
 			};
 		}	
@@ -199,7 +215,7 @@ $(function(){
 			var id = "document_"+id_num;		//ドキュメントのID
 			var len_list=$("#"+id).children('li').length;
 			
-			var new_list='<li><textarea cols="40" rows="4" name='+id+'_'+len_list+' placeholder="Document" class="form-control"></textarea></li>';
+			var new_list='<li><textarea cols="40" rows="4" id='+id+'_'+len_list+' name='+id+'_'+len_list+' placeholder="Document" class="form-control"></textarea></li>';
 			$("#"+id).append(new_list);
 		
 		//削除ボタンを一旦全消去し、配置しなおす
@@ -231,6 +247,7 @@ $(function(){
 		//入力欄の番号を振りなおす
 		for(var i=0; i<len_list; i++){
 			$("#"+id).find('li:eq('+i+') textarea').attr('name',id+"_"+i);	
+   			$("#"+id).find('li:eq('+j+') textarea').attr('id',id+"_"+j);	
 		}
 		
 	});	
@@ -248,7 +265,7 @@ $(function(){
 		var len_list=$('#collection_list>li').length / 2;
 		
 		var new_list='<li><hr><input type="text" id='+prefix_c+len_list+' name='+prefix_c+len_list+' placeholder="Collection" class="form-control"></li>';
-		var new_list=new_list +'<li><br><input type="button" value="add document" id='+prefix_b+len_list+' class="btn_d_add btn-default btn-sm"><br><ul style="list-style:none;" id='+prefix_d+len_list+' class="document_list"><li><textarea cols="40" rows="4" name='+prefix_d+len_list+'_0 placeholder="Document" class="form-control"></textarea></li></ul>';
+		var new_list=new_list +'<li><br><input type="button" value="add document" id='+prefix_b+len_list+' class="btn_d_add btn-default btn-sm"><br><ul style="list-style:none;" id='+prefix_d+len_list+' class="document_list"><li><textarea cols="40" rows="4" id='+prefix_d+len_list+'_0 name='+prefix_d+len_list+'_0 placeholder="Document" class="form-control"></textarea></li></ul>';
 		$('#collection_list').append(new_list);
 
 		ResetCdel();
@@ -300,6 +317,7 @@ $(function(){
 	   		//入力欄の番号を振りなおす
 	   		for(var j=0; j<len_d_list; j++){
 	   			$("#"+id).find('li:eq('+j+') textarea').attr('name',id+"_"+j);	
+	   			$("#"+id).find('li:eq('+j+') textarea').attr('id',id+"_"+j);	
 	   		}	   		
 	    }
 	    
@@ -310,6 +328,9 @@ $(function(){
 				
 	});	
 
+
+	
+	
 });
 
 
@@ -333,37 +354,146 @@ function ResetCdel(){
 
 
 
+//Formのチェック
+function chkForm(frm){
+
+	var flag = 0 ; //True or False　判定用
+	var error_ms = '';
+
+
+	//--問題の読み込み
+	if(json_file == ""){//問題ファイルが読み込まれていない場合
+		error_ms = "<p>問題を選択してください</p>";
+		$('div#error').html(error_ms);
+		return false;		
+	}else{//問題番号の取得
+			var q_num = document.getElementById('q_num').value;		
+	}
+
+	//-- 解答のコレクション名を配列に保存	
+	var col_name = new Array();//コレクション名
+	var i = 0;
+	while((document.getElementById("collection_list_"+i) != null )&&(document.getElementById("collection_list_"+i).value.match(/\S/g)))
+	{
+		col_name[i] = document.getElementById("collection_list_"+i).value;
+		i++;		
+	}
+	
+	//--模範解答のコレクション名と長さを保存
+	var q_col_name = new Array();//解答のコレクション名
+	
+	$.ajax({
+		type:"GET",
+		url:json_file,
+		async:false,
+		success:function(json){			
+			var q_col_l = json[q_num].model_answer.length;		
+			for(i=0;i<q_col_l;i++){
+				q_col_name[i]= json[q_num].model_answer[i].collection;
+			}
+		}
+	});
+
+	//コレクション数の比較
+	if(col_name.length != q_col_name.length){
+		flag++;
+		error_ms += '<p>コレクション数が正しくありません</p>';
+	}
+
+	//コレクション名の比較
+	for(i=0;i<q_col_name.length;i++){
+		//比較に使う変数compCnameの初期化
+		var compCname=0;
+		for(j=0;j<col_name.length;j++){
+			if(q_col_name[i] == col_name[j])compCname++;				
+		}
+		
+		//コレクション名が存在するかどうかチェック
+		if(compCname==0){
+			flag++;
+			error_ms += '<p>コレクション'+q_col_name[i]+'が必要です</p>';
+		}else if(compCname > 1){
+			flag++;
+			error_ms += '<p>コレクション'+q_col_name[i]+'が2つ以上あります．1つにまとめてください</p>';
+		}		
+	}
+	
+
+	
+	//ドキュメントがJSON形式かどうかの判定
+    
+	for(i=0;i<col_name.length;i++){
+		var j=0;
+		while((document.getElementById("document_"+i+"_"+j) != null )&&(document.getElementById("document_"+i+"_"+j).value.match(/\S/g)))
+		{
+			var doc = document.getElementById("document_"+i+"_"+j).value;
+			try{		 				
+				var jdoc = JSON.parse(doc);// 解答の入力文字列をJSONオブジェクトに変換
+				 if((typeof jdoc == 'object') && (jdoc instanceof Array)){
+					error_ms += '<p>"'+doc+'"は配列です.不正なドキュメント形式です</p>';
+					flag++;
+				 }
+			}catch(e){//エラーをフィードバック表示
+				error_ms += '<p>"'+doc+'"は不正なドキュメント形式です</p>';
+				flag++;
+			};
+			j++;		
+		}
+		
+		if(j==0){//ドキュメントが空
+			error_ms += '<p>'+col_name[i]+'にドキュメントが記述されていません</p>';
+			flag++;
+		}
+		
+		
+	}
+
+	if(flag > 0){
+		alert("F="+flag);
+		$('div#error').html(error_ms);
+		return false;	
+	}else{
+
+		alert("T");
+		$('div#error').html('');
+		return true;
+	}
+}	
+	
+
+
+
 //ヒントを作る
 function MakeHint(s,h){
 	  mylog = [];
 	  var hint = h;//ヒントレベル
 	  var last = 0;	  
 
-	  //ヒントレベルの最大値を求める
+	//ヒントレベルの最大値を求める
 	  function getLast(txt, LastLebel){
-		    var cnt = LastLebel;		    
-		    //array
-		    if((typeof txt == 'object') && (txt instanceof Array)){
-		      cnt++;
-		      if(last < cnt)last=cnt;
-		      for(var i = 0; i < txt.length; i++){
-		    	  cnt++;
-			      if(last < cnt)last=cnt;
-		    	  getLast(txt[i], cnt);
-		    	  cnt--;
-		       }		    
-		      //object
-		    }else if((typeof txt == 'object')){
-		      cnt++;
-		      if(last < cnt)last=cnt;
-		      for(var i in txt){
-		    	  cnt++;
-			      if(last < cnt)last=cnt;
-		    	  getLast(txt[i], cnt);
-		    	  cnt--;
-		      }		   
-		    }	
-		    return last;
+	  	    var cnt = LastLebel;		    
+	  	    //array
+	  	    if((typeof txt == 'object') && (txt instanceof Array)){
+	  	      cnt++;
+	  	      if(last < cnt)last=cnt;
+	  	      for(var i = 0; i < txt.length; i++){
+	  	    	  cnt++;
+	  		      if(last < cnt)last=cnt;
+	  	    	  getLast(txt[i], cnt);
+	  	    	  cnt--;
+	  	       }		    
+	  	      //object
+	  	    }else if((typeof txt == 'object')){
+	  	      cnt++;
+	  	      if(last < cnt)last=cnt;
+	  	      for(var i in txt){
+	  	    	  cnt++;
+	  		      if(last < cnt)last=cnt;
+	  	    	  getLast(txt[i], cnt);
+	  	    	  cnt--;
+	  	      }		   
+	  	    }	
+	  	    return last;
 	  }  
 	  
 	  /*ヒントの作成*/
@@ -413,9 +543,9 @@ function MakeHint(s,h){
 	        mylog.push('\r\n' + getIndent(indent));
 	        pushLog(last,'"'+i+'"');//最終ヒント
 	        cnt++;
-	        pushLog(cnt,':');
+	        pushLog(cnt,'   :');
 	        addLog(txt[i], indent, cnt);
-	        pushLog(cnt,',');	 
+	        pushLog(cnt,'   ,');	 
 	        cnt--;
 	      }
 	      mylog.pop();
@@ -423,59 +553,12 @@ function MakeHint(s,h){
 	      pushLog(cnt,'}');
 	    }else{
 	      //mylog.push(txt);
-	    }
+	    };
 	  }
 	  
 	  last = getLast(s,0)+1; //ヒントの最大レベル
 	  mylog.push("Last="+last+"\n");//確認用
 	  addLog(s, 0, 0);//ヒント作成
-	  return mylog.join('');	  
-	};
-
-
-//デバッグ用.トレース結果を出力
-function trace(s){
-	  mylog = [];
-	  
-	  function getIndent(num){
-	    var ind = [];
-	    while(num){
-	      ind.push('  ');
-	      num--;
-	    }
-	    return ind.join('');
-	  }
-	  function addLog(txt, defaultIndent){
-	    var cnt = defaultIndent;
-	    //array
-	    if((typeof txt == 'object') && (txt instanceof Array)){
-	      cnt++;
-	      mylog.push('[');
-	      for(var i = 0; i < txt.length; i++){
-	        mylog.push('\r\n' + getIndent(cnt));
-	        addLog(txt[i], cnt);
-	        if(i != txt.length - 1){
-	          mylog.push(',');
-	        }
-	      }
-	      mylog.push('\r\n' + getIndent(cnt - 1) + ']');
-	    //object
-	    }else if((typeof txt == 'object')){
-	      cnt++;
-	      mylog.push('{');
-	      for(var i in txt){
-	        mylog.push('\r\n' + getIndent(cnt) + i + ':');
-	        addLog(txt[i], cnt);
-	        mylog.push(',');
-	      }
-	      mylog.pop();
-	      mylog.push('\r\n' + getIndent(cnt - 1) + '}');
-	    }else{
-	      mylog.push(txt);
-	    }
-	  }
-	
-	  addLog(s, 0);
-	  return mylog.join('');	  
+	  return {str : mylog.join(''), last:getLast(s,0)-1 };	  
 	};
 
