@@ -78,7 +78,7 @@ exports.insert = function(req,res){
 		}
 	} 
 
-	 col[0].find().forEach(function(post){console.log("コレクション[0]に保存したドキュメント=",post);});
+	 col[0].find().forEach(function(post){console.log("TMP col=",post);});
 	//-----------解答のクエリに関する設定
 
 	//コレクション名とクエリの保存
@@ -98,9 +98,12 @@ exports.insert = function(req,res){
 	//操作結果の分割
 	
 	var q_result = JSON.parse(data.q_result);
-	console.log("操作結果の分割_q1の長さ"+q_result['q'+1].length);
+	
+		//確認.
+	for (i=0; i<q_result['q'+1].length; i++){
+		console.log("q_l["+j+"]["+i+"]="+JSON.stringify(q_result['q'+j][i]));
+	} ;
 
-	console.log("正誤判定結果配列初期化");
 	//正誤判定結果記録用配列の初期化
 	var c_length = query.length+1;
 	var check = new Array(c_length);
@@ -110,7 +113,7 @@ exports.insert = function(req,res){
 		for (j=0; j<q_result['q'+i].length; j++)check[i][j]=0;
 	};
 	//クエリの実行
-	console.log("クエリの実行");
+	
 	function execQuery(){
 		
 		for(i=0;i<query.length;i++){
@@ -130,7 +133,6 @@ exports.insert = function(req,res){
 			var tmp_i = i+1;
 			var q_length = q_result['q'+tmp_i].length;//結果の数
 			
-			console.log("問題"+tmp_i+"の結果の数は"+q_length);
 			
 			//--------
 			//操作結果とカーソルの値を比較
@@ -138,30 +140,22 @@ exports.insert = function(req,res){
 			//q_result['q'+tmp_i][j]
 			//--------
 	
-			compCur(tmp_i,q_length);
+			compCur(tmp_i);
 
-			function compCur(i,q_length){
+			function compCur(i){
 			
 				//要素数の確認
 				var c = 0 ;
 				var cur_num = 0;
 				cursor.count(function(err,count){
 					c = count;
-					
-					//カーソルが0である場合エラー
-					if(c==0){
-						console.log("CUR=0");
-						res.render('comment', {
-						    comment: '不正解です',
-						    feedback:'query'+i+'の条件を満たすドキュメントが入力されていません'
-						  });
-					}
 					console.log("!cn="+cur_num+"c="+c);
 				});
 				
+			
 				cursor.forEach(function(cur){
 					cur_num++;
-					console.log("数えた数="+cur_num+"カーソル数="+c);
+					console.log("cn="+cur_num+"c="+c);
 					for(j=0;j<q_length;j++){
 						console.log("i="+i+"j="+j); 
 						console.log("hikaku="+JSON.stringify(q_result['q'+i][j])); 
@@ -208,7 +202,7 @@ exports.insert = function(req,res){
 			
 			
 			res.render('comment', {
-			    comment: '正解です',
+			    comment: 'PerFect',
 		    	feedback:data.q_feedback
 
 			  });
@@ -217,7 +211,7 @@ exports.insert = function(req,res){
 		}else{
 			console.log("NOT");
 			res.render('comment', {
-			    comment: '不正解です',
+			    comment: 'NOT',
 			    feedback:''
 			  });
 		}

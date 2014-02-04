@@ -1,0 +1,33 @@
+[
+    { 	         
+    	"q_id" : 1 ,    	
+    	"sentence" : "生徒名と各教科の点数を管理する成績DBを作成します．<br><br>A君は数学が80点でした．<br>以下のクエリの実行結果を出力するデータモデルを記述しなさい",
+    	"key":["name","math"],
+    	"value":["A",80],
+    	"query" : {"q1":"Grade.find({\"name\":\"A\"},{\"math\":1})"},
+    	"model_answer" :[{"collection":"Grade","document":[{"name":"A","math":80}]}],
+    	"result":{"q1":[{"math":80}]} ,
+    	"feedback":"科目と点数をキーと値のペアとして記述しています．<br>各科目の点数の取得を容易に行うことができます．"
+    },
+    { 	         
+    	"q_id" : 2 ,    	
+    	"sentence" : "A君は英語は60点でした．<br><br>前の問題のデータ構造に英語の点数に関するデータを追加します.<br>以下のクエリの実行結果を出力するデータモデルを記述しなさい",
+    	"key":["name","math","english"],
+    	"value":["A",80,60],
+    	"query" : {"q1":"Grade.find({\"name\":\"A\"},{\"math\":1})",
+    	"q2":"Grade.find({\"english\":60},{\"name\":1})"},
+    	"model_answer" :[{"collection":"Grade","document":[{"name":"A","math":80,"english":60}]}],
+    	"result":{"q1":[{"math":80}],"q2":[{"name":"A"}]} ,
+    	"feedback":"科目と点数をキーと値のペアとして記述しています．各科目の点数の取得や、点数に応じた生徒の取得を容易に行うことができます．<br>しかし、科目数が増えた場合、全科目の点数の取得するには、生徒の受講している科目名をすべて把握している必要がある．"
+    },
+    { 	         
+    	"q_id" : 3 ,    	
+    	"sentence" : "科目が増加した場合に対応するため、科目情報のなかに,各科目の点数の埋め込みを考える．<br><br>前の問題のデータ構造を変更し,<br>以下のクエリの実行結果を出力するデータモデルを記述しなさい",
+    	"key":["name","course","math","english"],
+    	"value":["A",80,60],
+    	"query" : {"q1":"Grade.find({\"name\":\"A\"},{\"course\":1})"},
+    	"model_answer" :[{"collection":"Grade","document":[{"name":"A","course":{"math":80,"english":60}}]}],
+    	"result":{"q1":[{"course":{"math":80,"english":60}}]} ,
+    	"feedback":"ドキュメントの中にドキュメントを埋め込むことができます．これにより,科目名が不明な場合も全ての科目の情報を一度に取得することができます．"
+    }
+]

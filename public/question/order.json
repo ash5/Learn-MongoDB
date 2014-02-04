@@ -1,0 +1,45 @@
+[
+    { 	         
+    	"q_id" : 1 ,    	
+    	"sentence" : "注文データベースを作ります．<br>コーヒーを頼みました.",
+    	"key":["item"],
+    	"value":["coffee"],
+    	"query" : {"q1":"Order.find()"},
+    	"model_answer" :[{"collection":"Order","document":[{"item":"coffee"}]}],
+    	"result":{"q1":[{"item":"coffee"}]},
+    	"feedback":"注文が1つなので，キーと値のペアとして記述しています．次の問題は数種類の注文の場合です． "		  	
+    },
+    { 	         
+    	"q_id" : 2 ,    	
+    	"sentence" : "コーヒーの他にミルクを頼みました．",
+    	"key":["item"],
+    	"value":["coffee","milk"],
+    	"query" : {"q1":"Order.find({},{\"item\":1})"},
+    	"model_answer" :[{"collection":"Order","document":[{"item":["coffee","milk"]}]}],
+    	"result":{"q1":[{"item":["coffee","milk"]}]},
+    	"feedback":"注文が複数なので,配列として格納しています．このように複数の要素を配列としてまとめることもできます． "		  	
+    },
+    { 	         
+    	"q_id" : 3 ,    	
+    	"sentence" : "コーヒーは2つ,ミルクは3つ頼みました．<br><br>前の問題のデータモデルに数量を示すキー\"quantity\"を追加して，注文数を管理できるようにしましょう．",
+    	"key":["quantity","item"],
+    	"value":["coffee","milk",2,3],
+    	"query" : {"q1":"Order.find({},{\"item\":1})"},
+    	"model_answer" :[{"collection":"Order","document":[{"item":["coffee","milk"]}]}],
+    	"result":{"q1":[{"item":["coffee","milk"]}]},
+    	"feedback":"注文が複数なので,配列として格納しています．このように複数の要素を配列としてまとめることもできます． "		  	
+    }, 
+    { 	         
+    	"q_id" : 4 ,    	
+    	"sentence" : "顧客ごとの注文履歴を保持したコレクションOrdersを作成します．<br><br>現在,A君は,コーヒーとミルク，B君は紅茶を注文しました．<br>以下のクエリの実行結果を出力するデータモデルを記述しなさい.",
+    	"key":["order","customer"],
+    	"value":["coffee","tea","milk"],
+    	"query" : {"q1":"Orders.find({\"customer\":\"A\"},{\"order.order1\":1})",
+		"q2":"Orders.find({\"customer\":\"B\"},{\"order\":1})"},
+    	"model_answer" :[{"collection":"Orders","document":[{"customer":"A","order":[{"order1":"coffee"},{"order2":"milk"}]},
+    	                                                    {"customer":"B","order":[{"order1":"tea"}]}]}],
+    	"result":{"q1":[{"order":[{"order1":"coffee"},{}]}],
+    		"q2":[{"order":[{"order1":"tea"}]}]},
+    	"feedback":"注文が複数なので,配列として格納しています．このように複数の要素を配列としてまとめることもできます． "		  	
+    }
+ ]

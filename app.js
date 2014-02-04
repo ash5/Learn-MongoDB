@@ -5,7 +5,6 @@
 
 var express = require('express');
 var routes = require('./routes');//./routes/index.js の省略 
-var user = require('./routes/user');
 
 var http = require('http');
 var path = require('path');
@@ -13,13 +12,10 @@ var fs = require('fs');
 var util = require('util');
 
 //解答入力の処理
-var answer = require('./routes/answer');
 
 var app = express();
 
 
-
-/*占いようモジュール*/
 var querystring = require("querystring");
 
 // all environments
@@ -44,28 +40,20 @@ if ('development' == app.get('env')) {
 
 
 app.get('/', routes.index);
-app.get('/users', user.list);
 
-app.get('/form', routes.form);
-
-app.post('/create', routes.create);
-
-app.post('/lucky',routes.lucky);
-
-
-//デバッグ用
+//Mainページ用
 var debug = require('./routes/debug');
 app.post('/debug',debug.insert);
 
 //Mainページ
 app.get('/main',function(req,res){
 	  res.render('main', {
-		    comment: ''
+		    comment: '',
+		    feedback:''
 		  });
 });
 
 //feedbackコメント
-
 app.get('/comment',function(req,res){
 	res.render('comment', {
     comment: '',
@@ -74,26 +62,35 @@ app.get('/comment',function(req,res){
     	});
 });
 
+
+//問題作成ページ用
+var create = require('./routes/create');
+app.post('/create',create.insert);
+
+//問題作成ページ
+app.get('/create',function(req,res){
+	  res.render('create', {
+		  q_id : '',
+		  sentence : '',
+		  query : '',
+		  model_answer : '',
+		  result : '',
+		  feedback : ''
+			  });
+});
+
 //feedbackコメント
-app.get('/next',function(req,res){
-	res.render('next', {
-    next: 'TEST'
+app.get('/setumon',function(req,res){
+	res.render('setumon', {
+		  q_id : '',
+		  sentence : '',
+		  query : '',
+		  model_answer : '',
+		  result : '',
+		  feedback : ''
+    	
     	});
 });
-
-
-//オウム返しサンプル用
-
-app.get('/oumu',function(req,res){
-	  res.render('oumu', {
-		    title: 'Express'
-		  });
-});
-
-app.post('/talk', function(req, res){
-	  var input = req.body.input;
-	  res.send(input);
-	});
 
 
 

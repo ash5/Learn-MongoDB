@@ -116,7 +116,7 @@ $(function(){
 			
 			write_query += '<p class="bg-'+coler[mod]+'">';
 			for(var l in r){
-				write_query += 'query'+
+				write_query += 'result'+
 				l+' : '+JSON.stringify(r[l])+'<br>';
 			
 				//	$("#q_r").append("result:"+JSON.stringify(r[l])+"<br>");
@@ -254,7 +254,7 @@ $(function(){
 		//入力欄の番号を振りなおす
 		for(var i=0; i<len_list; i++){
 			$("#"+id).find('li:eq('+i+') textarea').attr('name',id+"_"+i);	
-   			$("#"+id).find('li:eq('+j+') textarea').attr('id',id+"_"+j);	
+   			$("#"+id).find('li:eq('+i+') textarea').attr('id',id+"_"+i);	
 		}
 		
 	});	
@@ -564,7 +564,7 @@ function MakeHint(s,h){
 	  }
 	  
 	  last = getLast(s,0)+1; //ヒントの最大レベル
-	  mylog.push("Last="+last+"\n");//確認用
+	//  mylog.push("Last="+last+"\n");//確認用
 	  addLog(s, 0, 0);//ヒント作成
 	  return {str : mylog.join(''), last:getLast(s,0)-1 };	  
 	};

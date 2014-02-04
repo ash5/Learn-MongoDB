@@ -9,58 +9,36 @@
 	<body>
 	<div class="container">
 	
-	<h1><p class="text-info">Learn-MongoDB</p></h1>
+	<h1><p class="text-info">Create</p></h1>
 		
-		<!-- 選択プルダウン　-->
-		
-		<select id="sel_question" name="sel_question">
-			<option value="" selected>SELECT</option>
-			<option value="tutorial">Tutorial</option>
-			<option value="operator">Operator</option>
-			<option value="order">注文</option>
-			<option value="grade">成績表</option>
-			<option value="blog">ブログ</option>
-		</select>
-		
+
 		<input type="hidden" id="q_num" name="q_num" value="0">
 		
-		<!-- 問題表示フィールド -->
-		<div class="row">
-			<div class="col-lg-6 col-md-6">
-			   <div id="mondai"></div>
-			</div>
-			<div class="col-lg-6 col-md-6">
-			 <br><br>
-				<div id='key'></div>
-				
-				<div id='value'></div>
-			</div>
-		</div>	
-	    <br>
-	    <div class="row">
-			<div class="col-lg-8 col-md-8">
-				<div id='q_r'></div>
-			</div>
-		</div>
-				<br>
-			   <div id="button"></div>
-			<br>
-		<hr>
-		<br>
-		
+
 	<div class="row">
 		<div class="col-lg-6 col-md-6">
 			<!-- JSON入力フィールド -->
-			<form action="/debug" method="post" target="comment" onsubmit="return chkForm(this)" name="form">
+			<form action="/create" method="post" target="setumon" onsubmit="return chkForm(this)" name="form">
 				<fieldset>
-					
-					<!--　問題番号等 -->
-					<input type="hidden" id="q_id" name="q_id" value="0">
-					<input type="hidden" id="q_result" name="q_result" value="">		
-					<input type="hidden" id="q_feedback" name="q_feedback" value="0">
 					<div id="q_query"></div>
-				  
-					<p><label>Input JSON</label></p>
+					<!--　問題番号等 -->
+					<p><label>問題番号</label></p>
+					<input type="text" id="q_id" name="q_id" class="form-control">
+					
+					<p><label>問題</label></p>
+					<textarea cols="40" rows="2" id="q_sentence" name="q_sentence"  class="form-control"></textarea>
+					
+					<p><label>フィードバックコメント</label></p>
+					<textarea cols="40" rows="2" id="q_feedback" name="q_feedback"  class="form-control"></textarea>
+					
+					<p><label>クエリ入力</label></p>
+	
+					<input type="button" value="add query" id="btn_q_0" class="btn_q_add btn-default btn-sm"><br>
+					<ul style="list-style:none;" id="query" class="query_list">
+						<li><input type="text" id="query_0" name="query_0" class="form-control"></li>
+					</ul>
+					
+					<p><label>模範解答</label></p>
 					<!-- コレクション名 -->
 						<input type="button" value="add collection" id="btn_c_add" class="btn-default btn-sm">
 						<br> 
@@ -88,17 +66,7 @@
 		</div>
 
 
-		<div class="col-lg-6 col-md-6">
-			<!-- ヒント表示　ボタン -->
-				<!--  
-				<input id="test_button" type="button" value="Test" class="btn-info btn-lg">
-				-->
-				<button type="button" id="test_button" class="btn-info btn-lg">
-				<span class="glyphicon glyphicon-comment"></span> Hint</button>
-				<br><br>				
-			<!-- ヒント表示フィールド -->
-				<div id="hint"></div>
-		</div>	
+	
     </div><!-- row END -->
 		<br>
 		<hr>
@@ -108,14 +76,14 @@
 			<!-- クライアント側 -->
 			<div id = "error"></div>
 			<!-- サーバー側 -->
-			<iframe id="comment" name="comment" src="/comment" width="700" height="150" scrolling="auto" frameborder="0" >
+			<iframe id="setumon" name="setumon" src="/setumon" width="400" height="150" scrolling="auto" frameborder="0" >
 			</iframe>
 				
 
 			
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-	<script src="/javascripts/jquery.js"></script>
+	<script src="/javascripts/c_jquery.js"></script>
 	
 	
 	</div><!-- containerEND -->

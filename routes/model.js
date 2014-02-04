@@ -6,7 +6,7 @@ function validator(v) {
 }
 
 var Post = new mongoose.Schema({
-    text   : { type: String, validate: [validator, "Empty Error"] },
+    text : { type: String, validate: [validator, "Empty Error"] },
      created: { type: Date, StringLiteral: Date.now }
 });
 
