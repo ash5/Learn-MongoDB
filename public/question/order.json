@@ -1,13 +1,13 @@
 [
     { 	         
     	"q_id" : 1 ,    	
-    	"sentence" : "注文データベースを作ります．<br>コーヒーを頼みました.",
-    	"key":["item"],
-    	"value":["coffee"],
-    	"query" : {"q1":"Order.find()"},
-    	"model_answer" :[{"collection":"Order","document":[{"item":"coffee"}]}],
-    	"result":{"q1":[{"item":"coffee"}]},
-    	"feedback":"注文が1つなので，キーと値のペアとして記述しています．次の問題は数種類の注文の場合です． "		  	
+    	"sentence" : "顧客ごとの注文管理用DBを作成します.<br><br>以下のクエリの実行結果を出力するデータ構造を記述しなさい.",
+    	"key":["customer","item","quantity","order","order1"],
+    	"value":["book","1"],
+    	"query" : {"q1":"Order.find({\"customer\":\"A\"},{\"order\":1})"},
+    	"model_answer" :[{"collection":"Order","document":[{"customer":"A","order":{"order1":{"item":"book","quantity":1}}}]}],
+    	"result":{"q1":[{"order":{"order1":{"item":"book","quantity":1}}}]},
+    	"feedback":"注文明細を埋め込むことで，顧客ごとの注文を取得が容易になります．また,注文全体をorder,注文明細をorder1,order2と管理することで，注文明細数が不明時における，注文全体の取得が容易になります． "		  	
     },
     { 	         
     	"q_id" : 2 ,    	
@@ -41,5 +41,15 @@
     	"result":{"q1":[{"order":[{"order1":"coffee"},{}]}],
     		"q2":[{"order":[{"order1":"tea"}]}]},
     	"feedback":"注文が複数なので,配列として格納しています．このように複数の要素を配列としてまとめることもできます． "		  	
+    },
+    { 	         
+    	"q_id" : 5 ,    	
+    	"sentence" : "注文データベースを作ります．<br>コーヒーを頼みました.",
+    	"key":["item"],
+    	"value":["coffee"],
+    	"query" : {"q1":"Order.find()"},
+    	"model_answer" :[{"collection":"Order","document":[{"item":"coffee"}]}],
+    	"result":{"q1":[{"item":"coffee"}]},
+    	"feedback":"注文が1つなので，キーと値のペアとして記述しています．次の問題は数種類の注文の場合です． "		  	
     }
  ]

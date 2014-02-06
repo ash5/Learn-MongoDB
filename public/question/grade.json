@@ -7,7 +7,7 @@
     	"query" : {"q1":"Grade.find({\"name\":\"A\"},{\"math\":1})"},
     	"model_answer" :[{"collection":"Grade","document":[{"name":"A","math":80}]}],
     	"result":{"q1":[{"math":80}]} ,
-    	"feedback":"科目と点数をキーと値のペアとして記述しています．<br>各科目の点数の取得を容易に行うことができます．"
+    	"feedback":"科目と点数をキーと値のペアとして記述しています．各科目の点数の取得を容易に行うことができます．"
     },
     { 	         
     	"q_id" : 2 ,    	

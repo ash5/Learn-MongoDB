@@ -9,7 +9,7 @@
 	<body>
 	<div class="container">
 	
-	<h1><p class="text-info">Learn-MongoDB</p></h1>
+	<h1><strong>Learn-MongoDB</strong></h1>
 		
 		<!-- 選択プルダウン　-->
 		
@@ -26,10 +26,10 @@
 		
 		<!-- 問題表示フィールド -->
 		<div class="row">
-			<div class="col-lg-6 col-md-6">
+			<div class="col-lg-8 col-md-8 col-sm-8">
 			   <div id="mondai"></div>
 			</div>
-			<div class="col-lg-6 col-md-6">
+			<div class="col-lg-4 col-md-4 col-sm-4">
 			 <br><br>
 				<div id='key'></div>
 				
@@ -49,7 +49,7 @@
 		<br>
 		
 	<div class="row">
-		<div class="col-lg-6 col-md-6">
+		<div class="col-lg-6 col-md-6 col-sm-6">
 			<!-- JSON入力フィールド -->
 			<form action="/debug" method="post" target="comment" onsubmit="return chkForm(this)" name="form">
 				<fieldset>
@@ -60,7 +60,7 @@
 					<input type="hidden" id="q_feedback" name="q_feedback" value="0">
 					<div id="q_query"></div>
 				  
-					<p><label>Input JSON</label></p>
+					<p><label>Input DataModel</label></p>
 					<!-- コレクション名 -->
 						<input type="button" value="add collection" id="btn_c_add" class="btn-default btn-sm">
 						<br> 
@@ -88,7 +88,7 @@
 		</div>
 
 
-		<div class="col-lg-6 col-md-6">
+		<div class="col-lg-6 col-md-6 col-sm-6">
 			<!-- ヒント表示　ボタン -->
 				<!--  
 				<input id="test_button" type="button" value="Test" class="btn-info btn-lg">
@@ -108,7 +108,7 @@
 			<!-- クライアント側 -->
 			<div id = "error"></div>
 			<!-- サーバー側 -->
-			<iframe id="comment" name="comment" src="/comment" width="700" height="150" scrolling="auto" frameborder="0" >
+			<iframe id="comment" name="comment" src="/comment" width="600" height="150" scrolling="auto" frameborder="0" >
 			</iframe>
 				
 

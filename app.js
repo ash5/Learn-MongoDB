@@ -48,8 +48,7 @@ app.post('/debug',debug.insert);
 //Mainページ
 app.get('/main',function(req,res){
 	  res.render('main', {
-		    comment: '',
-		    feedback:''
+
 		  });
 });
 
@@ -64,19 +63,12 @@ app.get('/comment',function(req,res){
 
 
 //問題作成ページ用
-var create = require('./routes/create');
-app.post('/create',create.insert);
+var check = require('./routes/check');
+app.post('/check',check.insert);
 
 //問題作成ページ
 app.get('/create',function(req,res){
-	  res.render('create', {
-		  q_id : '',
-		  sentence : '',
-		  query : '',
-		  model_answer : '',
-		  result : '',
-		  feedback : ''
-			  });
+	  res.render('create', { });
 });
 
 //feedbackコメント
@@ -87,8 +79,7 @@ app.get('/setumon',function(req,res){
 		  query : '',
 		  model_answer : '',
 		  result : '',
-		  feedback : ''
-    	
+		  feedback : ''    	
     	});
 });
 

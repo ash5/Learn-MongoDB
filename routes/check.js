@@ -2,6 +2,7 @@
 	/*
 	 * Mongolian を使用
 	 */
+	/*
 	var Mongolian = require("mongolian");
 
 	//Create a server instanve default host and port
@@ -9,7 +10,7 @@
 
 	//get database
 	var db = server.db("sampleDB");
-
+*/
 	var querystring = require("querystring");
 	
 	/*JSONDiffPatchを使用*/
@@ -22,7 +23,15 @@
 		};
 	
 exports.insert = function(req,res){
-	
+	//----Mongorian----------------	
+	var Mongolian = require("mongolian");
+
+	//Create a server instanve default host and port
+	var server = new Mongolian;
+
+	//get database
+	var db = server.db("createDB");
+//----------------------------------------
 	var data = req.body;
 	console.log("BODY=",req.body);
 

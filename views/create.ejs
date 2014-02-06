@@ -9,7 +9,9 @@
 	<body>
 	<div class="container">
 	
-	<h1><p class="text-info">Create</p></h1>
+	
+	
+	<h1><strong>Create</strong></h1>
 		
 
 		<input type="hidden" id="q_num" name="q_num" value="0">
@@ -18,7 +20,7 @@
 	<div class="row">
 		<div class="col-lg-6 col-md-6">
 			<!-- JSON入力フィールド -->
-			<form action="/create" method="post" target="setumon" onsubmit="return chkForm(this)" name="form">
+			<form action="/check" method="post" target="setumon" onsubmit="return chkForm(this)" name="form">
 				<fieldset>
 					<div id="q_query"></div>
 					<!--　問題番号等 -->
@@ -66,11 +68,9 @@
 		</div>
 
 
-	
-    </div><!-- row END -->
-		<br>
-		<hr>
-		<br>
+
+
+		<div class="col-lg-6 col-md-6">
 		
 		<!--　フィードバックフィールド -->
 			<!-- クライアント側 -->
@@ -78,14 +78,14 @@
 			<!-- サーバー側 -->
 			<iframe id="setumon" name="setumon" src="/setumon" width="400" height="150" scrolling="auto" frameborder="0" >
 			</iframe>
-				
+		</div>
 
 			
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 	<script src="/javascripts/c_jquery.js"></script>
 	
-	
+	</div><!-- row END -->
 	</div><!-- containerEND -->
 	
 	</body>
