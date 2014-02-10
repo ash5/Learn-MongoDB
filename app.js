@@ -74,12 +74,7 @@ app.get('/create',function(req,res){
 //feedbackコメント
 app.get('/setumon',function(req,res){
 	res.render('setumon', {
-		  q_id : '',
-		  sentence : '',
-		  query : '',
-		  model_answer : '',
 		  result : '',
-		  feedback : ''    	
     	});
 });
 

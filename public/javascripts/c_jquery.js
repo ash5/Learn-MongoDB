@@ -221,10 +221,150 @@ $(function(){
 });
 
 
+//--------------------------	
+//add documentボタンを押した場合の処理	
+//--------------------------	
+	
+	var prefix_d='document_';
+	$(document).on('click','.btn_d_add',function(){
+		//ドキュメント入力欄を追加
+			//ドキュメントの長さを取得
+			var btn_id = $(this).attr('id');	//ボタンのID
+			var id_num = btn_id.slice(6);		//"btn_d_"=6
+			var id = "document_"+id_num;		//ドキュメントのID
+			var len_list=$("#"+id).children('li').length;
+			
+			var new_list='<li><textarea cols="40" rows="4" id='+id+'_'+len_list+' name='+id+'_'+len_list+' placeholder="Document" class="form-control"></textarea></li>';
+			$("#"+id).append(new_list);
+		
+		//削除ボタンを一旦全消去し、配置しなおす
+			$("#"+id).find('input[type="button"]').remove();		
+			$("#"+id).find('hr').remove();	
+			len_list++;
+			for(var i=0; i<len_list; i++){
+				var new_btn='<input type="button" value="delete"  id=d_del_'+id_num+' class="btn-danger btn-xs pull-right"  ><hr>';
+				$("#"+id).find('li:eq('+i+')').append(new_btn);
+			};	
+	});
+
+//--------------------------	
+//ドキュメント　削除ボタンを押した場合の処理	
+//--------------------------	
+	$(document).on('click','.document_list input[type="button"]',function(ev){
+		//ドキュメント入力欄を削除
+		//ドキュメントの長さを取得
+		var btn_id = $(this).attr('id');	//ボタンのID
+		var id_num = btn_id.slice(6);		//"d_del_"=6
+		var id = "document_"+id_num;		//ドキュメントのID
+			
+		var doc_input=$(ev.target).parent().index();
+		
+		$("#"+id).find('li:eq('+doc_input+')').remove();
+		//入力欄がひとつならば削除ボタンは消去
+		var len_list=$("#"+id).children('li').length;
+		if(len_list==1)$("#"+id).find('input[type="button"]').remove();	
+		//入力欄の番号を振りなおす
+		for(var i=0; i<len_list; i++){
+			$("#"+id).find('li:eq('+i+') textarea').attr('name',id+"_"+i);	
+ 			$("#"+id).find('li:eq('+i+') textarea').attr('id',id+"_"+i);	
+		}
+		
+	});	
+
+
+//--------------------------	
+//add collectionボタンを押した場合の処理	
+//--------------------------	
+	
+	var prefix_c='collection_list_';
+	var prefix_b='btn_d_';
+	$("#btn_c_add").click(function(){
+		
+		//コレクション入力欄を追加 
+		var len_list=$('#collection_list>li').length / 2;
+		
+		var new_list='<li><hr><input type="text" id='+prefix_c+len_list+' name='+prefix_c+len_list+' placeholder="Collection" class="form-control"></li>';
+		var new_list=new_list +'<li><br><input type="button" value="add document" id='+prefix_b+len_list+' class="btn_d_add btn-default btn-sm"><br><ul style="list-style:none;" id='+prefix_d+len_list+' class="document_list"><li><textarea cols="40" rows="4" id='+prefix_d+len_list+'_0 name='+prefix_d+len_list+'_0 placeholder="Document" class="form-control"></textarea></li></ul>';
+		$('#collection_list').append(new_list);
+
+		ResetCdel();
+	});	
+
+//--------------------------	
+//コレクション　削除ボタンを押した場合の処理	
+//--------------------------
+	
+	$(document).on('click','.c_del',function(ev){
+	
+	    var res = confirm("コレクションを削除しますか?");
+	    
+	    if(res == true){
+	    	
+	    var btn_id = $(this).attr('id');	//ボタンのID
+	    var id_num = btn_id.slice(6);		//"c_del_"=6
+	    var c_id = id_num*2;
+	    var d_id = c_id+1;
+	    
+	    var id = prefix_c+id_num;
+
+	    //コレクションとドキュメント削除
+	    $('#collection_list>li:eq('+d_id+')').remove();
+	    $('#collection_list>li:eq('+c_id+')').remove();
+	    
+	    //入力欄がひとつならば削除ボタンは消去
+	    var len_list=$('#collection_list>li').length / 2;
+	    if(len_list==1)
+	    	{$('#collection_list .c_del').remove();}
+	    else{//削除ボタンの再割り当て
+	    	ResetCdel();
+	    }
+	 
+	    //コレクション番号,ドキュメント番号の振り直し
+	    for(var i=parseInt(id_num); i<len_list; i++){
+	    	
+	    	var t=parseInt(i)+1;
+	    	
+	    	$("#"+prefix_c+t).attr({'name':prefix_c+i,'id':prefix_c+i});//コレクション
+	    	$("#"+prefix_d+t).attr({'id':prefix_d+i});//ドキュメント
+	    	$("#"+prefix_b+t).attr({'id':prefix_b+i});//ボタン
+	    	
+	    	var id = prefix_d+i;		//ドキュメントのID
+	    	var len_d_list=$("#"+id).children('li').length;
+	    	//削除ボタンが存在するなら
+	    	if(len_d_list!=1)$("#"+d_del+t).attr({'id':d_del+i});//ドキュメント削除ボタン
+	    	
+	   		//入力欄の番号を振りなおす
+	   		for(var j=0; j<len_d_list; j++){
+	   			$("#"+id).find('li:eq('+j+') textarea').attr('name',id+"_"+j);	
+	   			$("#"+id).find('li:eq('+j+') textarea').attr('id',id+"_"+j);	
+	   		}	   		
+	    }
+	    
+	    }else{//何もしない
+	    }
+	    
+	
+				
+	});	
+
+
+	
+
 
 
 /*-------------関数-----------------*/
 
+//削除ボタンを一旦全消去し、配置しなおす
+function ResetCdel(){
+
+	$('#collection_list .c_del').remove();
+	var len_list=$('#collection_list>li').length / 2;
+	len_list++;
+	for(var i=0; i<len_list; i++){
+		var new_btn='<input type="button" value="delete" class="c_del btn-danger btn-xs" id=c_del_'+i+'>';
+		$('#collection_list>li:eq('+i*2+')').append(new_btn);
+	}
+};
 
 
 //Formのチェック
@@ -321,6 +461,23 @@ function chkForm(frm){
 		
 	}
 
+	//その他フォームの確認
+	if(!document.getElementById("q_id").value.match(/\S/g))
+	{
+		error_ms += '<p>問題番号が記入されていません</p>';
+		flag++;
+	}
+	if(!document.getElementById("q_sentence").value.match(/\S/g))
+	{
+		error_ms += '<p>問題が記入されていません</p>';
+		flag++;
+	}
+	if(!document.getElementById("q_feedback").value.match(/\S/g))
+	{
+		error_ms += '<p>フィードバックコメントが記入されていません</p>';
+		flag++;
+	}
+	
 	if(flag > 0){
 		alert("F="+flag);
 		$('div#error').html(error_ms);
