@@ -29,5 +29,15 @@
     	"model_answer" :[{"collection":"Grade","document":[{"name":"A","course":{"math":80,"english":60}}]}],
     	"result":{"q1":[{"course":{"math":80,"english":60}}]} ,
     	"feedback":"ドキュメントの中にドキュメントを埋め込むことができます．これにより,科目名が不明な場合も全ての科目の情報を一度に取得することができます．"
-    }
+    },
+    {
+    	"q_id" : 4,
+		"sentence" : "複数人の成績を管理します．<br><br>A君とB君の成績をそれぞれ1つのドキュメントで管理しましょう.<br><br>以下のクエリの実行結果を出力するデータモデルを記述しなさい",
+		"key" : ["name","course","math","english","japanese"],
+		"value" : ["A",80,60,"B",70],
+		"query" : {"q1" : "Grade.find({\"name\":\"A\"},{\"course\":1})","q2" : "Grade.find({\"name\":\"B\"},{\"course\":1})"},
+		"model_answer" : [{"collection":"Grade","document":[{"name":"A", "course":{"math":80,"english":60} },{"name":"B", "course":{"math":70,"japanese":60} }]}],
+		"result" : {"q1" : [{"course":{"math":80,"english":60}}],"q2" : [{"course":{"math":70,"japanese":60}}]},
+		"feedback" : "各個人の成績データを1つのドキュメントとしてまとめると、名前をキーとした成績情報の取得が容易になります."
+	} 
 ]

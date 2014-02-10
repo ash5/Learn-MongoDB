@@ -407,11 +407,6 @@ function chkForm(frm){
 	}
 	$("div#q_query").html(write_query);
 
-	//コレクション数の比較
-	if(col_name.length != q_col_name.length){
-		flag++;
-		error_ms += '<p>コレクション数が正しくありません</p>';
-	}
 
 	
 	//コレクション名の比較
@@ -426,9 +421,6 @@ function chkForm(frm){
 		if(compCname==0){
 			flag++;
 			error_ms += '<p>コレクション'+q_col_name[i]+'が必要です</p>';
-		}else if(compCname > 1){
-			flag++;
-			error_ms += '<p>コレクション'+q_col_name[i]+'が2つ以上あります．1つにまとめてください</p>';
 		}		
 	}
 	

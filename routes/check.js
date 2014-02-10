@@ -193,7 +193,7 @@ exports.insert = function(req,res){
 		q_id = '"q_id" : '+data.q_id;
 	
 		//問題文
-		sentence = '"sentence" : "'+data.q_sentence.replace(/"/g,'\\"');
+		sentence = '"sentence" : "'+data.q_sentence.replace(/"/g,'\\"')+'"';
 		
 		//key と　value
 		for(i=0;i<col_name.length;i++){
@@ -251,7 +251,7 @@ exports.insert = function(req,res){
 		
 		
 		//フィードバック
-		feedback = '"feedback" : '+data.q_feedback.replace(/"/g,'\\"');
+		feedback = '"feedback" : "'+data.q_feedback.replace(/"/g,'\\"')+'"';
 		
 		console.log("Perfect");
 		
