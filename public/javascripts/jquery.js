@@ -198,7 +198,7 @@ $(function(){
 					var col_tmp = '';
 				}
 				
-				write_html +='<textarea cols="40" rows="4" class="form-control" style="font-weight:bold;'+col_tmp+'">'+str_tmp.str+'</textarea><br>';
+				write_html +='<textarea cols="40" rows="3" class="form-control" style="font-weight:bold;'+col_tmp+'">'+str_tmp.str+'</textarea><br>';
 				
 			};
 		}	
@@ -222,7 +222,7 @@ $(function(){
 			var id = "document_"+id_num;		//ドキュメントのID
 			var len_list=$("#"+id).children('li').length;
 			
-			var new_list='<li><textarea cols="40" rows="4" id='+id+'_'+len_list+' name='+id+'_'+len_list+' placeholder="Document" class="form-control"></textarea></li>';
+			var new_list='<li><textarea cols="40" rows="3" id='+id+'_'+len_list+' name='+id+'_'+len_list+' placeholder="Document" class="form-control" style="font-weight:bold"></textarea></li>';
 			$("#"+id).append(new_list);
 		
 		//削除ボタンを一旦全消去し、配置しなおす
@@ -271,8 +271,8 @@ $(function(){
 		//コレクション入力欄を追加 
 		var len_list=$('#collection_list>li').length / 2;
 		
-		var new_list='<li><hr><input type="text" id='+prefix_c+len_list+' name='+prefix_c+len_list+' placeholder="Collection" class="form-control"></li>';
-		var new_list=new_list +'<li><br><input type="button" value="add document" id='+prefix_b+len_list+' class="btn_d_add btn-default btn-sm"><br><ul style="list-style:none;" id='+prefix_d+len_list+' class="document_list"><li><textarea cols="40" rows="4" id='+prefix_d+len_list+'_0 name='+prefix_d+len_list+'_0 placeholder="Document" class="form-control"></textarea></li></ul>';
+		var new_list='<li><hr><input type="text" id='+prefix_c+len_list+' name='+prefix_c+len_list+' placeholder="Collection" class="form-control" style="font-weight:bold"></li>';
+		var new_list=new_list +'<li><br><input type="button" value="add document" id='+prefix_b+len_list+' class="btn_d_add btn-default btn-sm"><br><ul style="list-style:none;" id='+prefix_d+len_list+' class="document_list"><li><textarea cols="40" rows="3" id='+prefix_d+len_list+'_0 name='+prefix_d+len_list+'_0 placeholder="Document" class="form-control" style="font-weight:bold"></textarea></li></ul>';
 		$('#collection_list').append(new_list);
 
 		ResetCdel();

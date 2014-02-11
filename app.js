@@ -42,8 +42,8 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 
 //Mainページ用
-var debug = require('./routes/debug');
-app.post('/debug',debug.insert);
+var answer = require('./routes/answer');
+app.post('/answer',answer.insert);
 
 //Mainページ
 app.get('/main',function(req,res){

@@ -51,7 +51,7 @@
 	<div class="row">
 		<div class="col-lg-6 col-md-6 col-sm-6">
 			<!-- JSON入力フィールド -->
-			<form action="/debug" method="post" target="comment" onsubmit="return chkForm(this)" name="form">
+			<form action="/answer" method="post" target="comment" onsubmit="return chkForm(this)" name="form">
 				<fieldset>
 					
 					<!--　問題番号等 -->
@@ -67,14 +67,14 @@
 						<ul style="list-style:none;" id="collection_list"  >
 							<li>
 						
-				   				<input type="text" id="collection_list_0" name="collection_list_0" placeholder="Collection Name" class="form-control">
+				   				<input type="text" id="collection_list_0" name="collection_list_0" placeholder="Collection Name" class="form-control" style="font-weight:bold">
 				   			
 				   			</li> 		
 				   		 	<li><br>		  
 							
 								<input type="button" value="add document" id="btn_d_0" class="btn_d_add btn-default btn-sm"><br>
 								<ul style="list-style:none;" id="document_0" class="document_list">
-									<li><textarea cols="40" rows="4"  id="document_0_0" name="document_0_0" placeholder="Document" class="form-control"></textarea></li>
+									<li><textarea cols="40" rows="3"  id="document_0_0" name="document_0_0" placeholder="Document" class="form-control" style="font-weight:bold"></textarea></li>
 								</ul>
 							</li>
 						</ul>
