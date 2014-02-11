@@ -42,14 +42,14 @@
     		"q2":[{"order":[{"order1":"tea"}]}]},
     	"feedback":"注文が複数なので,配列として格納しています．このように複数の要素を配列としてまとめることもできます． "		  	
     },
-    { 	         
-    	"q_id" : 5 ,    	
-    	"sentence" : "顧客ごとの注文管理用DBを作成します.<br><br>以下のクエリの実行結果を出力するデータ構造を記述しなさい.",
-    	"key":["customer","item","quantity","order","order1"],
-    	"value":["book","1"],
-    	"query" : {"q1":"Order.find({\"customer\":\"A\"},{\"order\":1})"},
-    	"model_answer" :[{"collection":"Order","document":[{"customer":"A","order":{"order1":{"item":"book","quantity":1}}}]}],
-    	"result":{"q1":[{"order":{"order1":{"item":"book","quantity":1}}}]},
-    	"feedback":"注文明細を埋め込むことで，顧客ごとの注文を取得が容易になります．また,注文全体をorder,注文明細をorder1,order2と管理することで，注文明細数が不明時における，注文全体の取得が容易になります． "		  	
-    }
- ]
+    {
+    	"q_id" : 5,
+		"sentence" : "顧客ごとの注文履歴を保持したコレクションOrdersを作成します．現在,A君は,コーヒーを2つとミルクを1つ，B君は紅茶を2つ注文しました．以下のクエリの実行結果を出力するデータモデルを記述しなさい.",
+		"key" : ["customer","order","order1","item","quantity","order2"],
+		"value" : ["A","coffee",2,"milk",1,"B","tea"],
+		"query" : {"q1" : "Orders.find({\"customer\":\"A\"},{\"order.order1\":1})","q2" : "Orders.find({\"customer\":\"A\"},{\"order.order2\":1})","q3" : "Orders.find({\"customer\":\"B\"},{\"order\":1})"},
+		"model_answer" : [{"collection":"Orders","document":[{"customer":"A", "order":{"order1":{ "item":"coffee","quantity":2} ,"order2":{ "item":"milk","quantity":1} }},{"customer":"B", "order":{"order1":{ "item":"tea","quantity":2} }}]}],
+		"result" : {"q1" : [{"order":{"order1":{"item":"coffee","quantity":2}}}],"q2" : [{"order":{"order2":{"item":"milk","quantity":1}}}],"q3" : [{"order":{"order1":{"item":"tea","quantity":2}}}]},
+		"feedback" : "注文明細を埋め込むことで，顧客ごとの注文の取得が容易になります．また,注文全体をorder,注文明細をorder1,order2と管理することで，注文明細数が不明時における，注文全体の取得が容易になります．注文明細には商品名や数量の他の情報の追加も容易に行えます."
+	}
+    ]
