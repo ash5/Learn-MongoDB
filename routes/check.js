@@ -1,16 +1,3 @@
-	var async = require("async");//async を使用
-	/*
-	 * Mongolian を使用
-	 */
-	/*
-	var Mongolian = require("mongolian");
-
-	//Create a server instanve default host and port
-	var server = new Mongolian;
-
-	//get database
-	var db = server.db("sampleDB");
-*/
 	var querystring = require("querystring");
 	
 	/*JSONDiffPatchを使用*/
@@ -18,8 +5,6 @@
 		//設定?
 		jsondiffpatch.config.objectHash = function(obj){
 			return  obj.id || JSON.stringify(obj);
-			//
-			//return obj.name;
 		};
 	
 exports.insert = function(req,res){
@@ -33,7 +18,6 @@ exports.insert = function(req,res){
 	var db = server.db("createDB");
 //----------------------------------------
 	var data = req.body;
-	console.log("BODY=",req.body);
 
 	//--　変数の冠詞
 	var prefix_c = "collection_list_";
@@ -74,11 +58,8 @@ exports.insert = function(req,res){
 			
 			try{		 				
 				var d = JSON.parse(doc[i][j]);// 解答の入力文字列をJSONオブジェクトに変換
-				console.log("json=",doc[i][j]); //デバッグ
 				col[i].insert(d); //コレクションにドキュメントを追加
-				console.log("Insert END");
 			}catch(e){//エラーをフィードバック表示
-				console.error("parsing error",e);
 				 res.render('comment', {
 					    comment: 'parsing error',
 					    feedback:''
@@ -86,9 +67,7 @@ exports.insert = function(req,res){
 			};
 		}
 	} 
-
-	 col[0].find().forEach(function(post){console.log("TMP col=",post);});
-	 
+ 
 	//-----------解答のクエリに関する設定
 
 	//コレクション名とクエリの保存
@@ -102,7 +81,6 @@ exports.insert = function(req,res){
 		q_col_name[i] = data[p_q_c+i];				//コレクション名
 		q_col[i] = db.collection(q_col_name[i]);	//コレクション
 		query[i] = data[p_q+i];							//クエリ
-		console.log("query i="+i+" END");
 		i++;	
 		
 	}
@@ -118,11 +96,9 @@ exports.insert = function(req,res){
 		
 		for(i=0;i<query.length;i++){
 			var tmp = "q_col["+i+"]."+query[i];
-			console.log("tmp_query="+tmp);
 			try{
 				var cursor = eval(tmp);			
 			}catch(e){
-				console.error("parsing error",e);
 				 res.render('comment', {
 					    comment: 'query error',
 					    	feedback:''
@@ -144,28 +120,18 @@ exports.insert = function(req,res){
 				var cur_num = 0;
 				cursor.count(function(err,count){
 					c = count;
-					console.log("!cn="+cur_num+"c="+c);
-				});
-				
-			
+					});
+							
 				cursor.forEach(function(cur){
 					
 						delete cur._id; //比較に不要な_idの除去　
-						console.log("doc=",cur);
-					
 						q_result[i][cur_num] = JSON.stringify(cur);
-						console.log("q_r["+i+"]["+cur_num+"]=",q_result[i][cur_num]);
 						cur_num++;
-						console.log("cn="+cur_num+"c="+c);
-					
 						
 					//すべてのチェックが完了したらフィードバック
 					if((i+1)==query.length&&cur_num==c){
-						console.log("LAST=i="+i+"c="+c);
 						createQuestion();
 						//			checkResult();
-					}else{
-						console.log("STOP=i="+i+"c="+c);
 					}
 				});
 			};	
@@ -253,9 +219,7 @@ exports.insert = function(req,res){
 		//フィードバック
 		feedback = '"feedback" : "'+data.q_feedback.replace(/"/g,'\\"')+'"';
 		
-		console.log("Perfect");
-		
-		
+			
 		res.render('setumon', {
 		   result: '{'+q_id+',<br>'+
 		   				sentence+',<br>'+
@@ -302,18 +266,10 @@ exports.insert = function(req,res){
 			  	    };
 			  }  
 			  getKV(s);
-			  console.log("K="+k+" V="+v);
 			  return {key : k, value:v };	  
 			};
 
-		
-	
-	
 	}
-	
-		
-	
-	
 	
 	
 	//--クエリの実行

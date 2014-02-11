@@ -471,12 +471,9 @@ function chkForm(frm){
 	}
 	
 	if(flag > 0){
-		alert("F="+flag);
 		$('div#error').html(error_ms);
 		return false;	
 	}else{
-
-		alert("T");
 		$('div#error').html('');
 		return true;
 	}
